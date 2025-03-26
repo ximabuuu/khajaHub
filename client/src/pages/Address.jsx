@@ -5,7 +5,7 @@ import { MdDelete } from "react-icons/md";
 import { MdModeEdit } from "react-icons/md";
 import EditAddress from '../component/EditAddress';
 import Axios from '../utils/axios';
-import SummaryApi from '../config/summaryApi';
+import SummaryApi from '../config/summaryApi.js';
 import toast from 'react-hot-toast';
 import AxiosToastError from '../utils/AxiosToastError';
 import { useGlobalContext } from '../global/globalFunc';

@@ -1,16 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import AxiosToastError from '../utils/AxiosToastError'
-import Axios from '../utils/axios'
-import SummaryApi from '../config/SummaryApi'
+import AxiosToastError from '../utils/AxiosToastError.js'
+import Axios from '../utils/axios.js'
+import SummaryApi from '../config/SummaryApi.js'
 import { GrFormPreviousLink } from "react-icons/gr";
 import { GrFormNextLink } from "react-icons/gr";
 import { MdDeliveryDining } from "react-icons/md";
-import Divider from '../component/Divider'
+import Divider from '../component/Divider.jsx'
 import deliver from '../assets/30min.png'
 import bestPrice from '../assets/bestPrice.png'
 import { DiscountedPrice } from '../utils/DiscountedPrice'
-import AddToCart from '../component/AddToCart'
+import AddToCart from '../component/AddToCart.jsx'
 import assortment from '../assets/assortment.png'
 
 const ProductDisplay = () => {

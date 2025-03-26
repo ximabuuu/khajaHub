@@ -4,7 +4,7 @@ import bannerMobile from '../assets/banner-mobile.png'
 import { useSelector } from 'react-redux'
 import { UrlConverter } from '../utils/UrlConverter'
 import { Link, useNavigate } from 'react-router-dom'
-import ProductByCategory from '../component/ProductByCategory'
+import ProductByCategory from '../component/ProductByCategory.jsx'
 
 const Home = () => {
 
