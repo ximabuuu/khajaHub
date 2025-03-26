@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import AddAddress from '../component/AddAddress'
 import { useSelector } from 'react-redux'
 import AxiosToastError from '../utils/AxiosToastError'
-import SummaryApi from '../config/summaryApi.js'
+import SummaryApi from '../config/SummaryApi.js'
 import toast from 'react-hot-toast'
 import Axios from '../utils/axios'
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { generateUniqueId } from "esewajs";
 import Axios from "../../utils/axios";
-import SummaryApi from "../../config/summaryApi.js";
+import SummaryApi from "../../config/SummaryApi.js";
 import toast from "react-hot-toast";
 import { useGlobalContext } from "../../global/globalFunc";
 import esewa from '../../assets/esewa.png'
