@@ -3,7 +3,7 @@ import EditProductAdmin from './EditProductAdmin'
 import DeleteConf from './DeleteConf'
 import AxiosToastError from '../utils/AxiosToastError'
 import Axios from '../utils/axios'
-import SummaryApi from '../config/SummaryApi'
+import SummaryApi from '../config/SummaryApi.js'
 import toast from 'react-hot-toast'
 
 const ProductCardAdmin = ({data,fetchProductData}) => {

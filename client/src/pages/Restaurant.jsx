@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import Axios from '../utils/axios'
 import { useEffect } from 'react'
-import SummaryApi from '../config/SummaryApi'
+import SummaryApi from '../config/SummaryApi.js'
 import NoData from '../component/NoData'
 import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useGlobalContext } from '../global/globalFunc'
 import Axios from '../utils/axios'
-import SummaryApi from '../config/summaryApi'
+import SummaryApi from '../config/summaryApi.js'
 import toast from 'react-hot-toast'
 import AxiosToastError from '../utils/AxiosToastError'
 import LoadingAdd from './LoadingAdd'

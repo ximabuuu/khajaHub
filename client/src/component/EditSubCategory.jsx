@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { IoMdCloseCircle } from "react-icons/io";
 import uploadImage from '../utils/uploadImage';
 import { useSelector } from 'react-redux';
-import SummaryApi from '../config/SummaryApi';
+import SummaryApi from '../config/SummaryApi.js';
 import Axios from '../utils/axios';
 import toast from 'react-hot-toast';
 import AxiosToastError from '../utils/AxiosToastError';

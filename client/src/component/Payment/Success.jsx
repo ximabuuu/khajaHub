@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { base64Decode } from "esewajs";
 import axios from "axios";
 import Axios from "../../utils/axios";
-import SummaryApi from "../../config/summaryApi";
+import SummaryApi from "../../config/summaryApi.js";
 import { useGlobalContext } from "../../global/globalFunc"; 
 
 const Success = () => {

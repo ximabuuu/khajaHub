@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import Axios from '../utils/axios'
-import SummaryApi from '../config/SummaryApi'
+import SummaryApi from '../config/SummaryApi.js'
 import AxiosToastError from '../utils/AxiosToastError'
 import Loading from '../component/Loading'
 import ProductCard from '../component/ProductCard'

@@ -3,7 +3,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux'
 import ProfileEdit from '../component/ProfileEdit';
 import Axios from '../utils/axios';
-import SummaryApi from '../config/summaryApi';
+import SummaryApi from '../config/summaryApi.js';
 import toast from 'react-hot-toast';
 import AxiosToastError from '../utils/AxiosToastError';
 import { setUserDetails } from '../redux/userSlice';

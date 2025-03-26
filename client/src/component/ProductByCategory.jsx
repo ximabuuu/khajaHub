@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import AxiosToastError from '../utils/AxiosToastError'
 import Axios from '../utils/axios'
-import SummaryApi from '../config/summaryApi'
+import SummaryApi from '../config/summaryApi.js'
 import ProdCardByCate from './ProdCardByCate'
 import ProductCard from './ProductCard'
 import { GrFormPreviousLink } from "react-icons/gr";

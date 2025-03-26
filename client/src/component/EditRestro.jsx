@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import { IoMdCloseCircle } from "react-icons/io";
 import Axios from '../utils/axios';
-import SummaryApi from '../config/SummaryApi';
+import SummaryApi from '../config/SummaryApi.js';
 import toast from 'react-hot-toast';
 import AxiosToastError from '../utils/AxiosToastError';
 

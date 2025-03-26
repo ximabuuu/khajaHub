@@ -2,7 +2,7 @@ import React from 'react'
 import { useForm } from "react-hook-form"
 import AxiosToastError from '../utils/AxiosToastError'
 import Axios from '../utils/axios'
-import SummaryApi from '../config/summaryApi'
+import SummaryApi from '../config/summaryApi.js'
 import toast from 'react-hot-toast'
 import { IoMdCloseCircle } from "react-icons/io";
 import { useGlobalContext } from '../global/globalFunc'

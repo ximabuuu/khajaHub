@@ -3,7 +3,7 @@ import uploadImage from '../utils/uploadImage'
 import { IoMdCloseCircle } from "react-icons/io";
 import AxiosToastError from '../utils/AxiosToastError'
 import toast from 'react-hot-toast'
-import SummaryApi from '../config/SummaryApi'
+import SummaryApi from '../config/SummaryApi.js'
 import Axios from '../utils/axios'
 
 const EditCategory = ({close,fetchData,data: CategoryData}) => {
