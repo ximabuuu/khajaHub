@@ -81,16 +81,16 @@ const Register = () => {
         <form className='grid gap-4 mt-6' onSubmit={handleSubmit}>
             <div className='grid gap-1'>
                 <label htmlFor="name">Name</label>
-                <input type="text" className='bg-blue-50 p-2 border outline-none focus:border-red-800 rounded' name="name" id="name" placeholder='Naam lekh Muji' autoFocus value={data.name} onChange={handleChange} />
+                <input type="text" className='bg-blue-50 p-2 border outline-none focus:border-red-800 rounded' name="name" id="name" placeholder='Enter Your Name' autoFocus value={data.name} onChange={handleChange} />
             </div>
             <div className='grid gap-1'>
                 <label htmlFor="email">Email</label>
-                <input type="email" className='bg-blue-50 p-2 border outline-none focus:border-red-800 rounded' name="email" id="email" placeholder='Email chai tero bau le halxa?' value={data.email} onChange={handleChange} />
+                <input type="email" className='bg-blue-50 p-2 border outline-none focus:border-red-800 rounded' name="email" id="email" placeholder='Enter Your Email' value={data.email} onChange={handleChange} />
             </div>
             <div className='grid gap-1'>
                 <label htmlFor="password">Password</label>
                 <div className='bg-blue-50 p-2 border rounded flex items-center focus-within:border-red-800'>
-                <input type={showPassword ? "text" : "password"} className='w-full outline-none' name="password" id="password" placeholder='Ani Password?' value={data.password} onChange={handleChange} />
+                <input type={showPassword ? "text" : "password"} className='w-full outline-none' name="password" id="password" placeholder='Enter Your Password' value={data.password} onChange={handleChange} />
                 <div onClick={()=> setShowPassword(preve => !preve)} className='cursor-pointer'>
                     {
                         showPassword ? (
@@ -106,7 +106,7 @@ const Register = () => {
             <div className='grid gap-1'>
                 <label htmlFor="confirmPassword">Confirm Password</label>
                 <div className='bg-blue-50 p-2 border rounded flex items-center focus-within:border-red-800'>
-                <input type={showConfirmPassword ? "text" : "password"} className='w-full outline-none' name="confirmPassword" id="confirmPassword" placeholder='Feri Lekh vai'  value={data.confirmPassword} onChange={handleChange} />
+                <input type={showConfirmPassword ? "text" : "password"} className='w-full outline-none' name="confirmPassword" id="confirmPassword" placeholder='Confirm Your Password'  value={data.confirmPassword} onChange={handleChange} />
                 <div onClick={()=> setShowConfirmPassword(preve => !preve)} className='cursor-pointer'>
                     {
                         showConfirmPassword ? (

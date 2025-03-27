@@ -5,6 +5,15 @@ import UserModel from "../models/user.model.js"
 export const addToCartController = async (req, res) => {
     try {
         const userId = req.userId
+    
+        if (!userId) {
+            return res.status(401).json({
+                message: "You must be logged in to add items.",
+                error: true,
+                success: false
+            });
+        }
+
         const { productId } = req.body
 
         if (!productId) {

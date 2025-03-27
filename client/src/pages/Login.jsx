@@ -81,12 +81,12 @@ const Login = () => {
         <form className='grid gap-4 mt-6' onSubmit={handleSubmit}>
             <div className='grid gap-1'>
                 <label htmlFor="email">Email</label>
-                <input type="email" className='bg-blue-50 p-2 border outline-none focus:border-red-800 rounded' name="email" id="email" placeholder='Email chai tero bau le halxa?' autoFocus value={data.email} onChange={handleChange} />
+                <input type="email" className='bg-blue-50 p-2 border outline-none focus:border-red-800 rounded' name="email" id="email" placeholder='Enter Your Email' autoFocus value={data.email} onChange={handleChange} />
             </div>
             <div className='grid gap-1'>
                 <label htmlFor="password">Password</label>
                 <div className='bg-blue-50 p-2 border rounded flex items-center focus-within:border-red-800'>
-                <input type={showPassword ? "text" : "password"} className='w-full outline-none' name="password" id="password" placeholder='Ani Password?' value={data.password} onChange={handleChange} />
+                <input type={showPassword ? "text" : "password"} className='w-full outline-none' name="password" id="password" placeholder='Enter Your Password' value={data.password} onChange={handleChange} />
                 <div onClick={()=> setShowPassword(preve => !preve)} className='cursor-pointer'>
                     {
                         showPassword ? (

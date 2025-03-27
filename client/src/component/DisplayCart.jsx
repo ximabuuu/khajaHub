@@ -24,7 +24,7 @@ const DisplayCart = ({ close }) => {
       }
       return
     }
-    toast("You are not Logged in.")
+    toast("You are not Logged in yet.")
   }
 
   return (

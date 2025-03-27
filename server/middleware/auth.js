@@ -9,7 +9,7 @@ const auth = async (request,response,next)=>{
 
         if (!token) {
             return response.status(401).json({
-                message : "You are not logged in" //provide token
+                message : "You are not logged in yet." //provide token
             })
         }
 
@@ -31,11 +31,7 @@ const auth = async (request,response,next)=>{
         
 
     } catch (error) {
-        return response.status(500).json({
-            message : "You are not logged in",//error.message || error,
-            error : true,
-            success : false
-        })
+        return next()
     }
 }
 
