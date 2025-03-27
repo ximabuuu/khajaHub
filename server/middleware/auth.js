@@ -8,9 +8,7 @@ const auth = async (request,response,next)=>{
         
 
         if (!token) {
-            return response.status(401).json({
-                message : "You are not logged in yet." //provide token
-            })
+            return next()
         }
 
         const decode = jwt.verify(token,process.env.SECRET_ACCESS_KEY_TOKEN)
