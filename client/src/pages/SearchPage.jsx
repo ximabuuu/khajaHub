@@ -4,7 +4,7 @@ import ProdCardByCate from '../component/ProdCardByCate'
 import AxiosToastError from '../utils/AxiosToastError'
 import Axios from '../utils/axios'
 import SummaryApi from '../config/SummaryApi.js'
-import ProductCard from '../component/ProductCard'
+import ProductCardSearch from '../component/ProductCardSearch.jsx'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useLocation } from 'react-router-dom'
 import noData from '../assets/nodata.png'
@@ -77,7 +77,7 @@ const SearchPage = () => {
             {
               data.map((p, index) => {
                 return (
-                  <ProductCard data={p} key={p._id + "search" + index} />
+                  <ProductCardSearch data={p} key={p._id + "search" + index} />
                 )
               })
             }
