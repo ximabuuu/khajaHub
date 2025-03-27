@@ -50,7 +50,7 @@ const ProductCard = ({ data }) => {
 
   return (
     <Link to={url}>
-      <div className='border border-blue-100 bg-white shadow-md hover:-translate-y-2.5 transition- p-4 lg:p-4 grid lg:gap-3 gap-3 mx-auto min-w-52  lg:max-w-52 lg:min-w-52 rounded cursor-pointer '>
+      <div className='border border-gray-900/40 bg-white shadow-md  p-4 lg:p-4 grid lg:gap-3 gap-3 mx-auto min-w-52  lg:max-w-52 lg:min-w-52 rounded cursor-pointer '>
         <div className='lg:min-h-32 w-full  max-h-34 rounded'>
           <img src={data.image[0]} alt="product image" className='w-full h-full object-scale-down lg:scale-110 rounded' />
         </div>
