@@ -19,6 +19,7 @@ const GlobalFunc = ({ children }) => {
     const [totalQty, setTotalQty] = useState(0);
     const cartItem = useSelector(state => state.cartItem.cart);
     const user = useSelector(state => state?.user);
+    const addressList = useSelector(state => state.addresses.addressList);
 
     // Fetch cart items from the database
     const fetchCartItem = async () => {

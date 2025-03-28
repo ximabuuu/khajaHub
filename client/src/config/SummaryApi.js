@@ -180,6 +180,14 @@ const SummaryApi = {
     CashOnDelivery : {
         url : '/api/order/cashOnDelivery',
         method : 'POST'
+    },
+    AllCash : {
+        url : '/api/order/get',
+        method : 'GET'
+    },
+    AllEsewa : {
+        url : '/api/esewa/get',
+        method : 'GET'
     }
 }
 

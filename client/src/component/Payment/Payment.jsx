@@ -7,11 +7,14 @@ import toast from "react-hot-toast";
 import { useGlobalContext } from "../../global/globalFunc";
 import esewa from '../../assets/esewa.png'
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 const Payment = () => {
-    const { totalPrice } = useGlobalContext();
+    const { totalPrice,totalQty } = useGlobalContext();
     const [amount, setAmount] = useState(0);
     const cartItemsList = useSelector(state => state.cartItem.cart)
+    const location = useLocation();
+    const selectedAddress = location.state?.selectedAddress;
 
     // Update amount whenever totalPrice changes
     useEffect(() => {
@@ -24,6 +27,9 @@ const Payment = () => {
         const requestData = {
             amount: amount, // Use updated state value
             productId: generateUniqueId(),
+            list_items: cartItemsList,
+            addressId : selectedAddress,
+            totalQty : totalQty
         };
 
         console.log("Sending Payment Request:", requestData);
@@ -38,8 +44,12 @@ const Payment = () => {
             console.log("Esewa Response:", response.data);
             window.location.href = response.data.url;
         } catch (error) {
-            console.error("Error initiating payment:", error.response?.data || error.message);
-            toast.error("Payment initiation failed!");
+            console.error("Error initiating payment:", error);
+            if (error.response) {
+                toast.error(error.response.data.message || "Payment failed.");
+            } else {
+                toast.error("Network error, please try again.");
+            }
         }
     };
 

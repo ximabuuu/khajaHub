@@ -20,7 +20,24 @@ const transactionSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'User'
     },
-    
+    product_details: [{
+        productId: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'Product'
+        },
+        name: String,
+        image: Array,
+        quantity: Number
+    }],
+    delivery_address: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'address'
+    },
+    totalQty: {
+        type: Number,
+        default: 0
+    }
+
 
 }, { timestamps: true }
 

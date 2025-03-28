@@ -11,7 +11,7 @@ import Axios from '../utils/axios'
 
 const CheckOutPage = () => {
 
-    const { originalPriceTotal, totalPrice, totalQty,fetchCartItem } = useGlobalContext()
+    const { originalPriceTotal, totalPrice, totalQty,fetchCartItem,handleAddressSelection } = useGlobalContext()
     const [openAddress, setOpenAddress] = useState(false)
     const addressList = useSelector(state => state.addresses.addressList)
     const [selectedAddress, setSelectedAddress] = useState(0)
@@ -102,7 +102,10 @@ const CheckOutPage = () => {
                         </div>
                     </div>
                     <div className='w-full max-w-md flex flex-col gap-4 font-semibold'>
-                        <Link to={"/payment"} className='py-2 px-4 bg-red-800 text-white hover:bg-red-700 rounded flex items-center justify-center '><img src={esewa} alt="esewa" className='w-6' />Pay with Esewa</Link>
+                        <Link 
+                            to={"/payment"}
+                            state={{selectedAddress : addressList[selectedAddress]}}
+                            className='py-2 px-4 bg-red-800 text-white hover:bg-red-700 rounded flex items-center justify-center '><img src={esewa} alt="esewa" className='w-6' />Pay with Esewa</Link>
                         <button onClick={handleCashOnDelivery} className='py-2 px-4 border border-red-800 hover:text-white text-red-800 hover:bg-red-800 rounded '>Cash on Delivery</button>
                     </div>
                 </div>

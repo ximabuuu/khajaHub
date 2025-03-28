@@ -177,7 +177,7 @@ export const clearUserCart = async (req, res) => {
             return res.status(400).json({ message: "No items found in cart to delete." });
         }
 
-        res.status(200).json({ message: "Cart emptied successfully!" });
+        res.status(200).json({ message: "Cart emptied successfully!", success: true });
     } catch (error) {
         console.error("Error clearing cart:", error);
         res.status(500).json({ message: "Failed to empty cart", error: error.message });
