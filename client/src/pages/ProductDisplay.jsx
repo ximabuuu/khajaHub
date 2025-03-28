@@ -33,12 +33,14 @@ const ProductDisplay = () => {
 
   const fetchReviews = async () => {
     try {
+      console.log(productId)
       const response = await Axios({
         ...SummaryApi.getReview,
-        data: { productId }
+        params: { productId }
       });
+
       if (response.data.success) {
-        setReviews(response.data.data);
+        setReviews(response.data.data)
       }
     } catch (error) {
       AxiosToastError(error);
@@ -67,10 +69,6 @@ const ProductDisplay = () => {
     }
   };
 
-  useEffect(() => {
-    fetchProductDetails()
-    fetchReviews();
-  }, [params, productId]);
 
   const handleNext = () => {
     imageContainer.current.scrollLeft += 100
@@ -104,7 +102,9 @@ const ProductDisplay = () => {
 
   useEffect(() => {
     fetchProductDetails()
-  }, [params])
+    fetchReviews();
+  }, [params, productId]);
+
 
   return (
     <section className='container  p-4 grid lg:grid-cols-2 lg:px-10 '>

@@ -4,7 +4,8 @@ import ReviewModel from "../models/review.model.js";
 // Add a Review
 export const addReview = async (req, res) => {
     try {
-        const { productId, userId, rating, comment } = req.body;
+        const userId = req.userId
+        const { productId, rating, comment } = req.body;
 
         // Check if the product exists
         const product = await ProductModel.findById(productId);
@@ -35,11 +36,13 @@ export const addReview = async (req, res) => {
 
 export const getReviews = async (req, res) => {
     try {
-        const { productId } = req.params;
-        const reviews = await ReviewModel.find({ productId }).populate("userId", "name");
+        const { productId } = req.query;
+
+        const reviews = await ReviewModel.find({ productId : productId }).populate('userId', "name");
 
         res.status(200).json({ success: true, data: reviews });
     } catch (error) {
+        console.error("Error fetching reviews:", error);
         res.status(500).json({ success: false, message: "Error fetching reviews", error });
     }
 };

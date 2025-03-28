@@ -182,6 +182,8 @@ export const getProductDetails = async (req, res) => {
 
         const product = await ProductModel.findOne({ _id: productId })
 
+     
+
         return res.json({
             message: "Product Details",
             data: product,
@@ -279,14 +281,14 @@ export const searchProduct = async (req, res) => {
         ])
 
         return res.json({
-            message : "Products data",
-            error : false,
-            success : true,
-            data : data,
-            totalCount : dataCount,
-            totalPage : Math.ceil(dataCount/limit),
-            page : page,
-            limit : limit
+            message: "Products data",
+            error: false,
+            success: true,
+            data: data,
+            totalCount: dataCount,
+            totalPage: Math.ceil(dataCount / limit),
+            page: page,
+            limit: limit
         })
 
     } catch (error) {
