@@ -22,7 +22,8 @@ const EsewaInitiatePayment = async (req, res) => {
       productId: el.productId._id,
       name: el.productId.name,
       image: el.productId.image,
-      quantity: el.quantity
+      quantity: el.quantity,
+      unit : el.productId.unit
     }));
 
     if (reqPayment.status === 200) {

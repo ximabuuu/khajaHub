@@ -188,6 +188,14 @@ const SummaryApi = {
     AllEsewa : {
         url : '/api/esewa/get',
         method : 'GET'
+    },
+    updateOrderStatus : {
+        url : '/api/order/update',
+        method : 'PUT'
+    },
+    contact : {
+        url : '/api/user/sendemail',
+        method : 'POST'
     }
 }
 

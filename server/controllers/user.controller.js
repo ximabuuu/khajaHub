@@ -10,6 +10,7 @@ import generatedOpt from '../utils/generatedOtp.js'
 import forgotPasswordTemplate from '../utils/forgotPasswordTemplate.js'
 import jwt from 'jsonwebtoken'
 import generatedaccessToken from '../utils/generatedAccessToken.js'
+import nodemailer from 'nodemailer'
 
 
 //registering user
@@ -519,6 +520,37 @@ export async function userDetails(request, response) {
             error: true,
             success: false
         })
+    }
+}
+
+export async function contactController(req, res) {
+    const { name, email, message } = req.body;
+
+    if (!name || !email || !message) {
+        return res.status(400).json({ success: false, error: 'All fields are required.' });
+    }
+
+    try {
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_USER, 
+                pass: process.env.EMAIL_PASS  
+            }
+        });
+
+        const mailOptions = {
+            from: email,
+            to: 'khajakhau69@gmail.com', 
+            subject: `New Contact Form Submission from ${name}`,
+            text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`
+        };
+
+        await transporter.sendMail(mailOptions);
+        res.json({ success: true, message: 'Email sent successfully!' });
+    } catch (error) {
+        console.error('Email sending error:', error);
+        res.status(500).json({ success: false, error: 'Failed to send email.' });
     }
 }
 

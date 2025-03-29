@@ -21,7 +21,7 @@ const orderSchema = new mongoose.Schema({
         },
         name: String,
         image: Array,
-        quantity: Number 
+        quantity: Number
     }],
     paymentId: {
         type: String,
@@ -54,7 +54,12 @@ const orderSchema = new mongoose.Schema({
     invoice_receipt: {
         type: String,
         default: ""
-    }
+    },
+    orderStatus: {
+        type: String,
+        enum: ["Pending", "Picked", "Delivered"],
+        default: "Pending",  
+    },
 }, {
     timestamps: true
 })

@@ -26,6 +26,9 @@ import CheckOutPage from '../pages/CheckOutPage.jsx'
 import Payment from '../component/Payment/Payment.jsx'
 import Success from '../component/Payment/Success.jsx'
 import Failure from '../component/Payment/Failure.jsx'
+import AboutUs from '../component/AboutUs.jsx'
+import ContactUs from '../component/ContactUs.jsx'
+import PrivacyPolicy from '../component/PrivacyPolicy.jsx'
 
 const router = createBrowserRouter([
     {
@@ -139,6 +142,18 @@ const router = createBrowserRouter([
             {
                 path : "failure",
                 element : <Failure/>
+            },
+            {
+                path : "aboutus",
+                element : <AboutUs/>
+            },
+            {
+                path : "contact",
+                element : <ContactUs/>
+            },
+            {
+                path : "privacypolicy",
+                element : <PrivacyPolicy/>
             }
         ]
     }

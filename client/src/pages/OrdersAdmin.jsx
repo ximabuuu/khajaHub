@@ -7,6 +7,36 @@ const OrdersAdmin = () => {
 
   const [data, setData] = useState([])
   const [cash, setCash] = useState([])
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    fetch("/api/orders")
+      .then((res) => res.json())
+      .then((data) => setOrders(data))
+      .catch((err) => console.error(err));
+  }, []);
+
+  const updateOrderStatus = async (orderId, newStatus) => {
+    try {
+      const response = await Axios({
+        ...SummaryApi.updateOrderStatus,
+        url: `/api/orders/${orderId}/orderStatus`, // Ensure dynamic orderId
+        method: "PUT",
+        data: { orderStatus: newStatus },
+      });
+
+      const updatedOrder = response.data; // Axios stores response data here
+
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order._id === updatedOrder._id ? updatedOrder : order
+        )
+      );
+    } catch (error) {
+      console.error("Error updating order status", error);
+    }
+  };
+
 
   const fetchData = async () => {
     try {

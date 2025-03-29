@@ -22,21 +22,22 @@ export const CashOnDelivery = async (req, res) => {
         const userId = req.userId
         const { list_items, totalAmt, addressId, totalQty } = req.body
 
-        
+
         const orderId = `ORD-${new mongoose.Types.ObjectId()}`;
 
-        
+
         const products = list_items.map(el => ({
             productId: el.productId._id,
             name: el.productId.name,
             image: el.productId.image,
-            quantity : el.quantity
+            quantity: el.quantity,
+            unit: el.productId.unit
         }));
 
         const payload = {
             userId: userId,
             orderId: orderId,
-            product_details: products, 
+            product_details: products,
             paymentId: "",
             payment_status: "CASH ON DELIVERY",
             delivery_address: addressId,
@@ -72,7 +73,7 @@ export const CashOnDelivery = async (req, res) => {
 
 export const fetchAllCashOnDeliv = async (req, res) => {
     try {
-        const AllCash = await OrderModel.find().sort({createdAt : -1})
+        const AllCash = await OrderModel.find().sort({ createdAt: -1 })
             .populate('userId', 'name')
             .populate('delivery_address', 'address_line city mobile')
             .populate('productId')
@@ -82,6 +83,34 @@ export const fetchAllCashOnDeliv = async (req, res) => {
             error: false,
             data: AllCash
         })
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message || error,
+            success: false,
+            error: true
+        })
+    }
+}
+
+export const updateOrderStatus = async (req, res) => {
+    try {
+        const { orderId } = req.params
+        const { orderStatus } = req.body
+
+        if (!["Pending", "Picked", "Delivered"].includes(orderStatus)) {
+            return res.status(400).json({ error: "Invalid status" });
+        }
+
+        const order = await OrderModel.findByIdAndUpdate(
+            orderId,
+            { orderStatus },
+            { new: true }
+        );
+
+        if (!order) return res.status(404).json({ error: "Order not found" });
+
+        res.json(order);
+
     } catch (error) {
         return res.status(500).json({
             message: error.message || error,
