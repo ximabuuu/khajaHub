@@ -44,7 +44,7 @@ const ContactUs = () => {
                     <p className="text-lg text-gray-700 mt-2">Feel free to contact us via email, phone, or visit us at our office.</p>
 
                     <div className="mt-4">
-                        <p className="text-lg text-gray-800"><strong>Email:</strong> khajkhau69@gmail.com</p>
+                        <p className="text-lg text-gray-800"><strong>Email:</strong> khajakhau69@gmail.com</p>
                         <p className="text-lg text-gray-800"><strong>Phone:</strong> +977 9765379732</p>
                         <p className="text-lg text-gray-800"><strong>Address:</strong> Itahari, Nepal</p>
                     </div>

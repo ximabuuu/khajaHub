@@ -1,0 +1,29 @@
+@keyframes bikeDelivery {
+    0% {
+        transform: translateX(-100%) translateY(30vh);
+    }
+
+    50% {
+        transform: translateX(50vw) translateY(30vh);
+    }
+
+    100% {
+        transform: translateX(100vw) translateY(30vh);
+    }
+}
+
+.animate-bike-delivery {
+    position: fixed;
+    left: 0;
+    z-index: 999999;
+    animation: bikeDelivery 3s ease-in-out forwards;
+}
+
+
+@media (max-width: 768px) {
+    .animate-bike-delivery {
+        top: 10px;
+        bottom: initial;
+        transform: scale(0.8);
+    }
+}

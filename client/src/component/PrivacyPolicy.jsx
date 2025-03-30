@@ -50,7 +50,7 @@ const PrivacyPolicy = () => {
 
                     <h2 className="text-2xl font-semibold text-gray-900 mb-4">6. Your Rights</h2>
                     <p className="text-lg text-gray-700 mb-4">
-                        You have the right to access, correct, or delete your personal information. If you wish to exercise these rights, please contact us at khajkhau69@gmail.com.
+                        You have the right to access, correct, or delete your personal information. If you wish to exercise these rights, please contact us at khajakhau69@gmail.com.
                     </p>
 
                     <h2 className="text-2xl font-semibold text-gray-900 mb-4">7. Changes to Our Privacy Policy</h2>
@@ -63,7 +63,7 @@ const PrivacyPolicy = () => {
                         If you have any questions or concerns about our Privacy Policy, please contact us at:
                     </p>
                     <p className="text-lg text-gray-700">
-                        Email: khajkhau69@gmail.com<br />
+                        Email: khajakhau69@gmail.com<br />
                         Phone: +977 9765379732<br />
                         Address: Itahari, Nepal
                     </p>
