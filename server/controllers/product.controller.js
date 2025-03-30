@@ -61,7 +61,7 @@ export const getProductController = async (req, res) => {
         const skip = (page - 1) * limit
 
         const [data, totalcount] = await Promise.all([
-            ProductModel.find(query).skip(skip).limit(limit).populate('category subCategory restaurant'),
+            ProductModel.find(query).sort({createdAt : -1}).skip(skip).limit(limit).populate('category subCategory restaurant'),
             ProductModel.countDocuments(query)
         ])
 
@@ -96,7 +96,7 @@ export const getProductByCategory = async (req, res) => {
 
         const product = await ProductModel.find({
             category: { $in: id }
-        }).limit(10)
+        }).limit(10).sort({createdAt : -1})
 
         return res.json({
             message: "Category Product List",
@@ -153,7 +153,7 @@ export const getProductByCateSubCate = async (req, res) => {
         const skip = (page - 1) * limit
 
         const [data, dataCount] = await Promise.all([
-            ProductModel.find(query).skip(skip).limit(limit),
+            ProductModel.find(query).skip(skip).sort({createdAt : -1}),
             ProductModel.countDocuments(query)
         ])
 
