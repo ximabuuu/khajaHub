@@ -21,6 +21,10 @@ function App() {
 
   const location = useLocation()
 
+  useEffect(() => {
+    window.scrollTo(0, 0); // Ensure page scrolls to top on every route change
+  }, [location.pathname]);
+
   const fetchUser = async () => {
     const userData = await fetchUserDetails()
     dispatch(setUserDetails(userData.data))
@@ -116,10 +120,10 @@ function App() {
       {
         location.pathname !== '/checkout' && (
 
-          <CartMobile/>
+          <CartMobile />
         )
       }
-      
+
     </GlobalFunc>
   )
 }
