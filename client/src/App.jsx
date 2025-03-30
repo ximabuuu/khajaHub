@@ -1,4 +1,5 @@
 import { Outlet, useLocation } from 'react-router-dom'
+import { AnimatePresence, motion } from 'framer-motion';
 import './App.css'
 import Header from './component/Header'
 import Footer from './component/Footer'
@@ -14,11 +15,8 @@ import { handleAddCart } from './redux/cartStore';
 import GlobalFunc from './global/globalFunc.jsx';
 import CartMobile from './component/CartMobile.jsx';
 
-
 function App() {
-
   const dispatch = useDispatch()
-
   const location = useLocation()
 
   useEffect(() => {
@@ -39,10 +37,8 @@ function App() {
       const { data: responseData } = response
       if (responseData.success) {
         dispatch(setAllCategory(responseData.data))
-        // setCategoryData(responseData.data)
       }
     } catch (error) {
-
     } finally {
       dispatch(setLoadingCategory(false))
     }
@@ -56,12 +52,8 @@ function App() {
       const { data: responseData } = response
       if (responseData.success) {
         dispatch(setAllSubCategory(responseData.data))
-        // setCategoryData(responseData.data)
       }
     } catch (error) {
-
-    } finally {
-
     }
   }
 
@@ -73,16 +65,12 @@ function App() {
       const { data: responseData } = response
       if (responseData.success) {
         dispatch(setRestaurant(responseData.data))
-        // setCategoryData(responseData.data)
       }
     } catch (error) {
-
-    } finally {
-
     }
   }
 
-  const fetchCartItem = async (params) => {
+  const fetchCartItem = async () => {
     try {
       const response = await Axios({
         ...SummaryApi.getCartItem
@@ -92,9 +80,7 @@ function App() {
 
       if (responseData.success) {
         dispatch(handleAddCart(responseData.data))
-        console.log(responseData)
       }
-
     } catch (error) {
       console.log(error)
     }
@@ -107,23 +93,23 @@ function App() {
     fetchRestaurant()
   }, [])
 
-
-
   return (
     <GlobalFunc>
       <Header />
-      <main className='min-h-[78vh] lg:mx-auto'>
-        <Outlet />
-      </main>
+      {/* Animate page transitions correctly */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={location.pathname}
+          initial={{ transform: "translateX(-100px)" }}
+          animate={{ transform: "translateX(0px)" }}
+          transition={{ type: "spring" }}
+        >
+          <Outlet />
+        </motion.div>
+      </AnimatePresence>
       <Footer />
       <Toaster />
-      {
-        location.pathname !== '/checkout' && (
-
-          <CartMobile />
-        )
-      }
-
+      {location.pathname !== '/checkout' && <CartMobile />}
     </GlobalFunc>
   )
 }
