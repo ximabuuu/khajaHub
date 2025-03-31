@@ -170,6 +170,7 @@ const ProductDisplay = () => {
         <p className='flex gap-2 bg-red-200 w-fit px-2 rounded-full'><MdDeliveryDining size={28} />30 Min</p>
         <h2 className='font-semibold text-lg lg:text-3xl'>{data.name}</h2>
         <p className='font-mono'>{data.unit}</p>
+        <p className='font-mono'>Average Ratings: ({data.averageRating})⭐</p>
         <Divider />
         <p>Price</p>
         <div className='flex items-center gap-2 lg:gap-4'>

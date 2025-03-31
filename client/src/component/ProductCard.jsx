@@ -43,10 +43,7 @@ const ProductCard = ({ data }) => {
     } finally {
       setLoading(false)
     }
-
   }
-
-  
 
   return (
     <Link to={url}>
@@ -69,15 +66,16 @@ const ProductCard = ({ data }) => {
         <div className='lg:px-0 px-2 font-medium text-ellipsis text-sm lg:text-base line-clamp-1 lg:line-clamp-1 '>
           {data.name}
         </div>
-        <div className='w-fit text-sm lg:text-base px-2 lg:px-0 '>
-          {data.unit}
+        <div className='w-full text-sm lg:text-base px-2 lg:px-0 flex'>
+          <div className='flex-1'>{data.unit}</div>
+          <div className='flex-1 text-right'>⭐{data.averageRating}</div>
         </div>
         <div className=' flex items-center justify-between gap-1 lg:gap-3 text-sm lg:text-base px-2 lg:px-0 '>
           <div className='lg:font-semibold font-medium '>
             Rs.{DiscountedPrice(data.price, data.discount)}
           </div>
           <div className=''>
-            <AddToCart data={data}/>
+            <AddToCart data={data} />
           </div>
         </div>
       </div>

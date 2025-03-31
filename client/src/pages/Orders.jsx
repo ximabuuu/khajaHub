@@ -28,7 +28,7 @@ const Orders = () => {
       {orders.length === 0 ? (
         <p>No orders found.</p>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-4 overflow-auto max-h-[70vh]">
           {orders.map((order) => (
             <div key={order._id} className="border p-4 rounded-lg shadow">
               <h3 className="text-lg font-bold">Order ID: {order.orderId}</h3>
