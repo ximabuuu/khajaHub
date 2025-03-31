@@ -193,6 +193,10 @@ const SummaryApi = {
         url : '/api/order/update',
         method : 'PUT'
     },
+    UserOrder : {
+        url : '/api/order/getorder',
+        method : 'GET'
+    },
     contact : {
         url : '/api/user/sendemail',
         method : 'POST'

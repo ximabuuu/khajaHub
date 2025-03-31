@@ -47,6 +47,7 @@ export const CashOnDelivery = async (req, res) => {
 
         const Order = await OrderModel.insertMany(payload)
 
+
         const removeCartItems = await cartProductModel.deleteMany({ userId: userId })
         const updateUser = await UserModel.updateOne({ _id: userId }, { shopping_cart: [] })
 
@@ -119,3 +120,28 @@ export const updateOrderStatus = async (req, res) => {
         })
     }
 }
+
+export const getUserOrders = async (req, res) => {
+    try {
+        const userId = req.userId
+
+        const userOrders = await OrderModel.find({ userId: userId })
+            .populate("userId")
+            .populate("delivery_address")
+            .sort({ createdAt: -1 })
+
+        return res.json({
+            message: "User orders fetched successfully!",
+            error: false,
+            success: true,
+            data: userOrders
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        });
+    }
+};

@@ -20,12 +20,12 @@ const OrdersAdmin = () => {
     try {
       const response = await Axios({
         ...SummaryApi.updateOrderStatus,
-        url: `/api/orders/${orderId}/orderStatus`, // Ensure dynamic orderId
+        url: `/api/orders/${orderId}/orderStatus`,
         method: "PUT",
         data: { orderStatus: newStatus },
       });
 
-      const updatedOrder = response.data; // Axios stores response data here
+      const updatedOrder = response.data;
 
       setOrders((prevOrders) =>
         prevOrders.map((order) =>
@@ -88,7 +88,7 @@ const OrdersAdmin = () => {
                   <ul className="list-disc pl-6">
                     {
                       item.product_details.map((prod) => (
-                        <li key={prod.name} className="text-sm text-gray-600">{prod.name} - Qty {prod.quantity}</li>
+                        <li key={prod.name} className="text-sm text-gray-600">{prod.name} - Qty {prod.quantity} - {prod.unit}</li>
                       ))
                     }
                   </ul>
@@ -104,6 +104,9 @@ const OrdersAdmin = () => {
                   </div>
                   <div className="mt-2 text-sm text-gray-600">
                     <span className="font-semibold">Status:</span> {item.status}
+                  </div>
+                  <div className="mt-2 text-sm text-gray-600">
+                    <span className='font-semibold'>Ordered On: </span> {new Date(order.createdAt).toLocaleString()}
                   </div>
                 </div>
               ))
@@ -123,7 +126,7 @@ const OrdersAdmin = () => {
                   <ul className="list-disc pl-6">
                     {
                       order.product_details.map((prod) => (
-                        <li key={prod.name} className="text-sm text-gray-600">{prod.name} - Qty {prod.quantity}</li>
+                        <li key={prod.name} className="text-sm text-gray-600">{prod.name} - Qty {prod.quantity} - {prod.unit}</li>
                       ))
                     }
                   </ul>
@@ -139,6 +142,9 @@ const OrdersAdmin = () => {
                   </div>
                   <div className="mt-2 text-sm text-gray-600">
                     <span className="font-semibold">Status:</span> {order.payment_status}
+                  </div>
+                  <div className="mt-2 text-sm text-gray-600">
+                    <span className='font-semibold'>Ordered On: </span> {new Date(order.createdAt).toLocaleString()}
                   </div>
                 </div>
               ))
