@@ -20,7 +20,7 @@ const BikeDeliveryAnimation = ({ isDelivering }) => {
     return (
         <div className={`absolute top-0 left-0 z-50`}>
             <img
-                src={bike}
+                src="https://res.cloudinary.com/drcjnrrbr/image/upload/v1743425705/1743346000485_ctflym.png"
                 alt="Bike"
                 className="w-20 md:w-30 lg:w-40 animate-bike-delivery"
             />
