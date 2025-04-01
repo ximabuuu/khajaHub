@@ -10,26 +10,29 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 
 const Payment = () => {
-    const { totalPrice,totalQty } = useGlobalContext();
-    const [amount, setAmount] = useState(0);
-    const cartItemsList = useSelector(state => state.cartItem.cart)
+    const { totalQty } = useGlobalContext();
+    const cartItemsList = useSelector(state => state.cartItem.cart);
     const location = useLocation();
     const selectedAddress = location.state?.selectedAddress;
 
-    // Update amount whenever totalPrice changes
+    // Get the discounted price from CheckoutPage
+    const [amount, setAmount] = useState(location.state?.discountedPrice || 0);
+
     useEffect(() => {
-        setAmount(totalPrice + 60);
-    }, [totalPrice]);
+        if (!amount) {
+            setAmount(location.state?.discountedPrice || 0);
+        }
+    }, [location.state?.discountedPrice]);
 
     const handlePayment = async (e) => {
         e.preventDefault();
 
         const requestData = {
-            amount: amount, // Use updated state value
+            amount: amount,
             productId: generateUniqueId(),
             list_items: cartItemsList,
-            addressId : selectedAddress,
-            totalQty : totalQty
+            addressId: selectedAddress,
+            totalQty: totalQty
         };
 
         console.log("Sending Payment Request:", requestData);
@@ -58,11 +61,10 @@ const Payment = () => {
             <div className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md">
                 <div className="flex items-center justify-center gap-4 mb-6">
                     <img src={esewa} alt="esewa" width={50} className="object-contain" />
-                    <h1 className="text-2xl font-semibold text-center text-black ">
+                    <h1 className="text-2xl font-semibold text-center text-black">
                         Pay With Esewa
                     </h1>
                 </div>
-
 
                 <form onSubmit={handlePayment} className="space-y-4">
                     <div className="flex flex-col">

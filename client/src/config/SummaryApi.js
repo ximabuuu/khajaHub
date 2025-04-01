@@ -200,6 +200,10 @@ const SummaryApi = {
     contact : {
         url : '/api/user/sendemail',
         method : 'POST'
+    },
+    getUserTransaction : {
+        url : '/api/esewa/get-userTransaction',
+        method : 'GET'
     }
 }
 

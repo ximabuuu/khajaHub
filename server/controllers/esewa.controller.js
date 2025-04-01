@@ -23,7 +23,7 @@ const EsewaInitiatePayment = async (req, res) => {
       name: el.productId.name,
       image: el.productId.image,
       quantity: el.quantity,
-      unit : el.productId.unit
+      unit: el.productId.unit
     }));
 
     if (reqPayment.status === 200) {
@@ -32,7 +32,7 @@ const EsewaInitiatePayment = async (req, res) => {
         product_id: productId,
         amount: amount,
         product_details: products,
-        totalQty : totalQty,
+        totalQty: totalQty,
         delivery_address: addressId
       });
       const saveTransaction = await transaction.save();
@@ -91,7 +91,7 @@ export const fetchAllTransaction = async (req, res) => {
   try {
     const AllTrans = await TransactionModel.find()
       .populate('userId')
-      .populate('delivery_address','city mobile address_line')
+      .populate('delivery_address', 'city mobile address_line')
 
     return res.json({
       message: "All Transaction Fetched.",
@@ -108,4 +108,29 @@ export const fetchAllTransaction = async (req, res) => {
     })
   }
 }
+
+export const getUserTransaction = async (req, res) => {
+  try {
+    const userId = req.userId
+
+    const userOrders = await TransactionModel.find({ userId: userId })
+      .populate("userId")
+      .populate("delivery_address")
+      .sort({ createdAt: -1 })
+
+    return res.json({
+      message: "User orders fetched successfully!",
+      error: false,
+      success: true,
+      data: userOrders
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false
+    });
+  }
+};
 

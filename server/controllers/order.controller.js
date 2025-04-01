@@ -2,19 +2,13 @@ import mongoose from "mongoose"
 import OrderModel from "../models/order.model.js"
 import cartProductModel from "../models/cartProduct.model.js"
 import UserModel from "../models/user.model.js"
-import Twilio from 'twilio'
-
-const twilioClient = Twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
-
-async function sendSMS() {
-    const message = await twilioClient.messages.create({
-        body: 'Haina hola hai',
-        from: '+12013892431',
-        to: process.env.PHONE_NUMBER
-    })
-}
+import twilio from 'twilio'
+import dotenv from 'dotenv'
 
 
+dotenv.config();
+
+const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
 export const CashOnDelivery = async (req, res) => {
     try {
@@ -51,7 +45,33 @@ export const CashOnDelivery = async (req, res) => {
         const removeCartItems = await cartProductModel.deleteMany({ userId: userId })
         const updateUser = await UserModel.updateOne({ _id: userId }, { shopping_cart: [] })
 
-        sendSMS()
+
+        const user = await UserModel.findById(userId);
+        
+        const userPhone = user?.mobile;
+
+        // Message for User
+        const userMessage = `Your order ${orderId} has been placed successfully! Total: Rs. ${totalAmt}. Cash on Delivery. Thank you for shopping with us!`;
+
+        // Message for Admin
+        const adminMessage = `New order placed! Order ID: ${orderId}. Total: Rs. ${totalAmt}. Check admin panel for details.`;
+
+        // Send SMS or WhatsApp to User
+        if (userPhone) {
+            await client.messages.create({
+                body: userMessage,
+                from: process.env.TWILIO_PHONE_NUMBER,
+                to: '+9779819060205'
+            });
+        }
+
+        // Send SMS or WhatsApp to Admin
+        await client.messages.create({
+            body: adminMessage,
+            from: process.env.TWILIO_PHONE_NUMBER,
+            to: process.env.PHONE_NUMBER
+        });
+
 
 
         return res.json({
