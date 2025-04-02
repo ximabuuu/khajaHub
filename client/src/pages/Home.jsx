@@ -35,7 +35,7 @@ const Home = () => {
         <Popup imageUrl={'https://res.cloudinary.com/drcjnrrbr/image/upload/v1743501006/Orange_White_Modern_Sale_Instagram_Post_bqxsfv.png'}/>
       </div>
       <div className='container mx-auto rounded my-2 px-4'>
-        <div className={`w-full h-full min-h-33 lg:min-h-48 bg-blue-100 rounded`}>
+        <div className={`w-full px-4 h-full min-h-33 lg:min-h-48 bg-white rounded`}>
           <img src={banner} alt="banner" className='w-full h-full hidden lg:block md:block rounded' />
           <img src={bannerMobile} alt="banner" className='w-full h-full lg:hidden md:hidden rounded' />
         </div>

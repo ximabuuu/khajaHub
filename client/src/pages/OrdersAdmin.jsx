@@ -106,7 +106,7 @@ const OrdersAdmin = () => {
                     <span className="font-semibold">Status:</span> {item.status}
                   </div>
                   <div className="mt-2 text-sm text-gray-600">
-                    <span className='font-semibold'>Ordered On: </span> {new Date(order.createdAt).toLocaleString()}
+                    <span className='font-semibold'>Ordered On: </span> {new Date(item.createdAt).toLocaleString()}
                   </div>
                 </div>
               ))

@@ -18,6 +18,7 @@ import { EsewaInitiatePayment,paymentStatus } from './controllers/esewa.controll
 import esewaRouter from './route/esewa.route.js'
 import AddressRouter from './route/address.route.js'
 import OrderRouter from './route/order.route.js'
+import PopUpRouter from './route/popup.route.js'
 
 const app = express()
 app.use(cors({
@@ -52,6 +53,7 @@ app.use('/api/review',reviewRouter)
 app.use("/api/esewa", esewaRouter)
 app.use('/api/address',AddressRouter)
 app.use('/api/order',OrderRouter)
+app.use('/api/popup',PopUpRouter)
 
 connectDB().then(()=>{
     app.listen(PORT,()=>{

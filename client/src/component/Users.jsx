@@ -10,6 +10,7 @@ import { BiSolidCategoryAlt } from "react-icons/bi";
 import { MdCategory } from "react-icons/md";
 import { GiShop } from "react-icons/gi";
 import { SlPresent } from "react-icons/sl";
+import { FaRegImage } from "react-icons/fa6";
 import Divider from './Divider';
 import Axios from '../utils/axios'
 import SummaryApi from '../config/SummaryApi.js';
@@ -91,6 +92,11 @@ const Users = ({ close }) => {
         {
           Admin(user.role) && (
             <Link onClick={handleClose} className='flex gap-1 hover:bg-red-800 rounded hover:text-white px-2 py-1' to={"/dashboard/allorders"}>All Orders <SlPresent size={17} /></Link>
+          )
+        }
+        {
+          Admin(user.role) && (
+            <Link onClick={handleClose} className='flex gap-1 hover:bg-red-800 rounded hover:text-white px-2 py-1' to={"/dashboard/popup"}>Pop Up <FaRegImage size={15} /></Link>
           )
         }
         <Link onClick={handleClose} className='flex gap-1 hover:bg-red-800 rounded hover:text-white px-2 py-1' to={"/dashboard/myorders"}>My Orders <LiaGiftsSolid size={20} /></Link>

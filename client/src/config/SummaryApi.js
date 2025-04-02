@@ -204,6 +204,14 @@ const SummaryApi = {
     getUserTransaction : {
         url : '/api/esewa/get-userTransaction',
         method : 'GET'
+    },
+    addPopUp : {
+        url : '/api/popup/add',
+        method : 'POST'
+    },
+    getPopUp : {
+        url : '/api/popup/get',
+        method : 'GET'
     }
 }
 

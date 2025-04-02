@@ -29,6 +29,7 @@ import Failure from '../component/Payment/Failure.jsx'
 import AboutUs from '../component/AboutUs.jsx'
 import ContactUs from '../component/ContactUs.jsx'
 import PrivacyPolicy from '../component/PrivacyPolicy.jsx'
+import PopUp from '../pages/PopUp.jsx'
 
 const router = createBrowserRouter([
     {
@@ -106,6 +107,10 @@ const router = createBrowserRouter([
                     {
                         path : "allorders",
                         element : <AdminPerm><OrdersAdmin/></AdminPerm>
+                    },
+                    {
+                        path : "popup",
+                        element : <AdminPerm><PopUp/></AdminPerm>
                     }
                 ]
             },

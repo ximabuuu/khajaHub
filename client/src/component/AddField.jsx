@@ -3,7 +3,7 @@ import { IoMdCloseCircle } from "react-icons/io";
 
 const AddField = ({close,value,onChange,submit}) => {
   return (
-    <section className='fixed top-0 right-0 bottom-0 left-0 bg-neutral-900/70 z-50 flex items-center justify-center p-4'>
+    <section className='fixed top-0 right-0 bottom-0 left-0 bg-neutral-900/70 z-50  flex items-center justify-center p-4'>
         <div className='bg-white rounded p-4 w-full max-w-md'>
             <div className='flex items-center justify-between gap-3'>
                 <h1 className='font-semibold'>Add Field</h1>
