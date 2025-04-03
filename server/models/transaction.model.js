@@ -36,7 +36,13 @@ const transactionSchema = new mongoose.Schema({
     totalQty: {
         type: Number,
         default: 0
-    }
+    },
+    orderStatus: {
+        type: String,
+        enum: ["Pending", "Accepted", "Picked", "Delivered"],
+        default: "Pending",
+    },
+    rider: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null },
 
 
 }, { timestamps: true }

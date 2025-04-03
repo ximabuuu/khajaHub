@@ -1,6 +1,6 @@
 import UserModel from "../models/user.model.js";
 
-export const admin = async (req, res, next) => {
+export const adminorrider = async (req, res, next) => {
     try {
         console.log("Authenticated User ID:", req.userId); // Debugging
 
@@ -16,7 +16,7 @@ export const admin = async (req, res, next) => {
         const user = await UserModel.findById(userId);
         console.log("User role:", user?.role); // Debugging
 
-        if (!user || user.role !== "ADMIN") {
+        if (!user || (user.role !== "ADMIN" && user.role !== "RIDER")) {
             return res.status(403).json({
                 message: "Permission Denial",
                 error: true,

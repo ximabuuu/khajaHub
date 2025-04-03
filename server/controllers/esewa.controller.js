@@ -33,10 +33,11 @@ const EsewaInitiatePayment = async (req, res) => {
         amount: amount,
         product_details: products,
         totalQty: totalQty,
-        delivery_address: addressId
+        delivery_address: addressId,
+        orderStatus: "Pending",
+        rider: null
       });
       const saveTransaction = await transaction.save();
-
 
       const addUserAddress = await UserModel.findByIdAndUpdate(userId, {
         $push: {
@@ -92,6 +93,7 @@ export const fetchAllTransaction = async (req, res) => {
     const AllTrans = await TransactionModel.find()
       .populate('userId')
       .populate('delivery_address', 'city mobile address_line')
+      .populate('rider', 'name mobile')
 
     return res.json({
       message: "All Transaction Fetched.",
@@ -116,6 +118,7 @@ export const getUserTransaction = async (req, res) => {
     const userOrders = await TransactionModel.find({ userId: userId })
       .populate("userId")
       .populate("delivery_address")
+      .populate("rider", 'name mobile')
       .sort({ createdAt: -1 })
 
     return res.json({
@@ -130,6 +133,45 @@ export const getUserTransaction = async (req, res) => {
       message: error.message || error,
       error: true,
       success: false
+    });
+  }
+};
+
+export const updateEsewaStatus = async (req, res) => {
+  const { orderId } = req.params;
+  const { orderStatus } = req.body;
+  const riderId = req.userId; // Extract rider ID from authenticated user
+
+  try {
+    // Fetch the user details
+    const rider = await UserModel.findById(riderId);
+
+    if (!rider || rider.role !== "RIDER") {
+      return res.status(403).json({ message: "Only riders can accept orders" });
+    }
+
+    const updatedOrder = await TransactionModel.findByIdAndUpdate(
+      orderId,
+      { orderStatus, rider: riderId }, // Assign Rider
+      { new: true }
+    ).populate("rider", "name mobile"); // Populate Rider Details
+
+    if (!updatedOrder) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    res.json({
+      message: "Order status updated successfully!",
+      success: true,
+      error: false,
+      data: updatedOrder
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      message: "Error updating order status",
+      success: false,
+      error: true
     });
   }
 };

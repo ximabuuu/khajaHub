@@ -4,32 +4,31 @@ import Axios from '../utils/axios';
 import SummaryApi from '../config/SummaryApi';
 
 const Orders = () => {
-  const [orders, setOrders] = useState([])
-  const [transaction, setTransaction] = useState([])
+  const [orders, setOrders] = useState([]);
+  const [transaction, setTransaction] = useState([]);
 
   const handleUserOrder = async () => {
     try {
       const response = await Axios(SummaryApi.UserOrder);
-      setOrders(response.data.data)
+      setOrders(response.data.data);
     } catch (error) {
       AxiosToastError(error);
     }
-  }
+  };
 
   const handleUserTransaction = async () => {
     try {
       const response = await Axios(SummaryApi.getUserTransaction);
-      setTransaction(response.data.data)
+      setTransaction(response.data.data);
     } catch (error) {
-      AxiosToastError(error)
+      AxiosToastError(error);
     }
-  }
-
+  };
 
   useEffect(() => {
-    handleUserOrder()
-    handleUserTransaction()
-  }, [])
+    handleUserOrder();
+    handleUserTransaction();
+  }, []);
 
   return (
     <section className="p-4">
@@ -56,6 +55,16 @@ const Orders = () => {
                   ))}
                 </ul>
               </div>
+              <p>Order Status: <strong>{order.orderStatus}</strong></p>
+
+              {/* Show Rider Information if Order is Accepted */}
+              {order.orderStatus !== "Pending" && order.rider && (
+                <div className="mt-2 p-2 bg-blue-100 rounded">
+                  <p className="font-semibold">Rider Information:</p>
+                  <p>Name: {order.rider.name}</p>
+                  <p>Mobile: {order.rider.mobile}</p>
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -67,7 +76,7 @@ const Orders = () => {
         <div className="space-y-4 overflow-auto max-h-[70vh]">
           {transaction.map((transaction) => (
             <div key={transaction._id} className="border p-4 rounded-lg shadow">
-              <h3 className="text-lg font-bold">Order ID: {transaction.orderId}</h3>
+              <h3 className="text-lg font-bold">Order ID: {transaction.product_id}</h3>
               <p>Total Amount: Rs. {transaction.totalAmt}</p>
               <p>Payment Status: <strong>Esewa</strong></p>
               <p>Delivery Address: {transaction.delivery_address.city} - {transaction.delivery_address.address_line}</p>
@@ -82,6 +91,15 @@ const Orders = () => {
                   ))}
                 </ul>
               </div>
+              <p>Order Status: <strong>{transaction.orderStatus}</strong></p>
+              {/* Show Rider Information if Order is Accepted */}
+              {transaction.orderStatus !== "Pending" && transaction.rider && (
+                <div className="mt-2 p-2 bg-blue-100 rounded">
+                  <p className="font-semibold">Rider Information:</p>
+                  <p>Name: {transaction.rider.name}</p>
+                  <p>Mobile: {transaction.rider.mobile}</p>
+                </div>
+              )}
             </div>
           ))}
         </div>

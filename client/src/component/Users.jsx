@@ -18,6 +18,7 @@ import { logout } from '../redux/userSlice';
 import toast from 'react-hot-toast'
 import AxiosToastError from '../utils/AxiosToastError.js';
 import Admin from '../utils/Admin.js';
+import Rider from '../utils/Rider.js';
 
 
 const Users = ({ close }) => {
@@ -56,10 +57,10 @@ const Users = ({ close }) => {
   return (
     <div className='px-6'>
       <div className='font-semibold'>My Account</div>
-       <div className='flex items-center'>
-        <Link onClick={handleClose} className='hover:text-red-800' to={"/dashboard/profile"}><div className='text-sm flex gap-2'>{user.name || user.mobile}<FiExternalLink size={15} /> </div></Link> 
-        <span className='text-md font-semibold text-red-800'>{user.role === "ADMIN" ? "(admin)" : ""}</span>
-       </div>
+      <div className='flex items-center'>
+        <Link onClick={handleClose} className='hover:text-red-800' to={"/dashboard/profile"}><div className='text-sm flex gap-2'>{user.name || user.mobile}<FiExternalLink size={15} /> </div></Link>
+        <span className='text-md font-semibold text-red-800'>{user.role === "ADMIN" ? "(admin)" : user.role === "RIDER" ? "(rider)" : ""}</span>
+      </div>
 
       <Divider />
 
@@ -92,6 +93,11 @@ const Users = ({ close }) => {
         {
           Admin(user.role) && (
             <Link onClick={handleClose} className='flex gap-1 hover:bg-red-800 rounded hover:text-white px-2 py-1' to={"/dashboard/allorders"}>All Orders <SlPresent size={17} /></Link>
+          )
+        }
+        {
+          Rider(user.role) && (
+            <Link onClick={handleClose} className='flex gap-1 hover:bg-red-800 rounded hover:text-white px-2 py-1' to={"/dashboard/orders"}>Orders <SlPresent size={17} /></Link>
           )
         }
         {

@@ -2,13 +2,7 @@ import mongoose from "mongoose"
 import OrderModel from "../models/order.model.js"
 import cartProductModel from "../models/cartProduct.model.js"
 import UserModel from "../models/user.model.js"
-import twilio from 'twilio'
-import dotenv from 'dotenv'
 
-
-dotenv.config();
-
-const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
 export const CashOnDelivery = async (req, res) => {
     try {
@@ -36,7 +30,9 @@ export const CashOnDelivery = async (req, res) => {
             payment_status: "CASH ON DELIVERY",
             delivery_address: addressId,
             totalAmt: totalAmt,
-            totalQty: totalQty
+            totalQty: totalQty,
+            orderStatus: "Pending",
+            rider: null
         };
 
         const Order = await OrderModel.insertMany(payload)
@@ -47,31 +43,6 @@ export const CashOnDelivery = async (req, res) => {
 
 
         const user = await UserModel.findById(userId);
-        
-        const userPhone = user?.mobile;
-
-        // Message for User
-        const userMessage = `Your order ${orderId} has been placed successfully! Total: Rs. ${totalAmt}. Cash on Delivery. Thank you for shopping with us!`;
-
-        // Message for Admin
-        const adminMessage = `New order placed! Order ID: ${orderId}. Total: Rs. ${totalAmt}. Check admin panel for details.`;
-
-        // Send SMS or WhatsApp to User
-        if (userPhone) {
-            await client.messages.create({
-                body: userMessage,
-                from: process.env.TWILIO_PHONE_NUMBER,
-                to: '+9779819060205'
-            });
-        }
-
-        // Send SMS or WhatsApp to Admin
-        await client.messages.create({
-            body: adminMessage,
-            from: process.env.TWILIO_PHONE_NUMBER,
-            to: process.env.PHONE_NUMBER
-        });
-
 
 
         return res.json({
@@ -97,6 +68,7 @@ export const fetchAllCashOnDeliv = async (req, res) => {
         const AllCash = await OrderModel.find().sort({ createdAt: -1 })
             .populate('userId', 'name')
             .populate('delivery_address', 'address_line city mobile')
+            .populate("rider", "name mobile ")
             .populate('productId')
         return res.json({
             message: "All Data Fetched",
@@ -114,32 +86,43 @@ export const fetchAllCashOnDeliv = async (req, res) => {
 }
 
 export const updateOrderStatus = async (req, res) => {
-    try {
-        const { orderId } = req.params
-        const { orderStatus } = req.body
+    const { orderId } = req.params;
+    const { orderStatus } = req.body;
+    const riderId = req.userId; // Extract rider ID from authenticated user
 
-        if (!["Pending", "Picked", "Delivered"].includes(orderStatus)) {
-            return res.status(400).json({ error: "Invalid status" });
+    try {
+        // Fetch the user details
+        const rider = await UserModel.findById(riderId);
+
+        if (!rider || rider.role !== "RIDER") {
+            return res.status(403).json({ message: "Only riders can accept orders" });
         }
 
-        const order = await OrderModel.findByIdAndUpdate(
+        const updatedOrder = await OrderModel.findByIdAndUpdate(
             orderId,
-            { orderStatus },
+            { orderStatus, rider: riderId }, // Assign Rider
             { new: true }
-        );
+        ).populate("rider", "name mobile"); // Populate Rider Details
 
-        if (!order) return res.status(404).json({ error: "Order not found" });
+        if (!updatedOrder) {
+            return res.status(404).json({ message: "Order not found" });
+        }
 
-        res.json(order);
+        res.json({
+            message: "Order status updated successfully!",
+            success: true,
+            error: false,
+            data: updatedOrder
+        });
 
     } catch (error) {
-        return res.status(500).json({
-            message: error.message || error,
+        res.status(500).json({
+            message: "Error updating order status",
             success: false,
             error: true
-        })
+        });
     }
-}
+};
 
 export const getUserOrders = async (req, res) => {
     try {
@@ -148,6 +131,7 @@ export const getUserOrders = async (req, res) => {
         const userOrders = await OrderModel.find({ userId: userId })
             .populate("userId")
             .populate("delivery_address")
+            .populate("rider", "name mobile role")
             .sort({ createdAt: -1 })
 
         return res.json({

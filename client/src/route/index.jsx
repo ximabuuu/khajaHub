@@ -30,6 +30,8 @@ import AboutUs from '../component/AboutUs.jsx'
 import ContactUs from '../component/ContactUs.jsx'
 import PrivacyPolicy from '../component/PrivacyPolicy.jsx'
 import PopUp from '../pages/PopUp.jsx'
+import RiderPerm from '../layouts/RiderPerm.jsx'
+import OrdersUser from '../pages/OrdersUser.jsx'
 
 const router = createBrowserRouter([
     {
@@ -111,6 +113,10 @@ const router = createBrowserRouter([
                     {
                         path : "popup",
                         element : <AdminPerm><PopUp/></AdminPerm>
+                    },
+                    {
+                        path : "orders",
+                        element : <RiderPerm><OrdersUser/></RiderPerm>
                     }
                 ]
             },

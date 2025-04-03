@@ -57,9 +57,10 @@ const orderSchema = new mongoose.Schema({
     },
     orderStatus: {
         type: String,
-        enum: ["Pending", "Picked", "Delivered"],
-        default: "Pending",  
+        enum: ["Pending", "Accepted", "Picked", "Delivered"],
+        default: "Pending",
     },
+    rider: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null },
 }, {
     timestamps: true
 })

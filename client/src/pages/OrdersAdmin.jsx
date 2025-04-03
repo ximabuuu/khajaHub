@@ -108,6 +108,9 @@ const OrdersAdmin = () => {
                   <div className="mt-2 text-sm text-gray-600">
                     <span className='font-semibold'>Ordered On: </span> {new Date(item.createdAt).toLocaleString()}
                   </div>
+                  <div className="mt-2 text-sm text-gray-600">
+                    <span className="font-semibold">Order Status:</span> {item.orderStatus}
+                  </div>
                 </div>
               ))
             }
@@ -145,6 +148,9 @@ const OrdersAdmin = () => {
                   </div>
                   <div className="mt-2 text-sm text-gray-600">
                     <span className='font-semibold'>Ordered On: </span> {new Date(order.createdAt).toLocaleString()}
+                  </div>
+                  <div className="mt-2 text-sm text-gray-600">
+                    <span className="font-semibold">Order Status:</span> {order.orderStatus}
                   </div>
                 </div>
               ))
