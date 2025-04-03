@@ -11,12 +11,5 @@ export default defineConfig({
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],  // Add extensions you want Vite to resolve automatically
   },
-  optimizeDeps: {
-    exclude: ['mongoose'], // Ensure mongoose is excluded
-  },
-  build: {
-    rollupOptions: {
-      external: ['mongoose'], // Exclude mongoose from frontend bundling
-    }
-  }
+  
 })
