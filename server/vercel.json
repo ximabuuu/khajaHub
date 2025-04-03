@@ -1,16 +1,20 @@
 {
-    "version" : 2,
-    "name" : "Khaja Hub",
-    "builds" : [
+    "version": 2,
+    "name": "Khaja Hub",
+    "builds": [
         {
-            "src" : "./index.js",
-            "use" : "@vercel/node"
+            "src": "./index.js",
+            "use": "@vercel/node"
         }
     ],
-    "routes" : [
+    "routes": [
         {
-            "src" : "/(.*)",
-            "dest" : "/"
+            "src": "/api/(.*)",
+            "dest": "/index.js"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/"
         }
     ]
 }
