@@ -13,7 +13,7 @@ const OrdersAdmin = () => {
     fetch("/api/orders")
       .then((res) => res.json())
       .then((data) => setOrders(data))
-      .catch((err) => console.error(err));
+      .catch((err) => console.error(err))
   }, []);
 
   const updateOrderStatus = async (orderId, newStatus) => {
