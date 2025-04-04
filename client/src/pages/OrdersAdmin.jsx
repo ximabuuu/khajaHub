@@ -111,6 +111,16 @@ const OrdersAdmin = () => {
                   <div className="mt-2 text-sm text-gray-600">
                     <span className="font-semibold">Order Status:</span> {item.orderStatus}
                   </div>
+                  <div className='mt-2 text-sm '>
+                    {/* Show Rider Information if Order is Accepted */}
+                    {item.orderStatus !== "Pending" && item.rider && (
+                      <div className="mt-2 p-2 bg-blue-100 rounded">
+                        <p className="font-semibold">Rider Information:</p>
+                        <p>Name: {item.rider.name}</p>
+                        <p>Mobile: {item.rider.mobile}</p>
+                      </div>
+                    )}
+                  </div>
                 </div>
               ))
             }
@@ -151,6 +161,16 @@ const OrdersAdmin = () => {
                   </div>
                   <div className="mt-2 text-sm text-gray-600">
                     <span className="font-semibold">Order Status:</span> {order.orderStatus}
+                  </div>
+                  <div className='mt-2 text-sm '>
+                    {/* Show Rider Information if Order is Accepted */}
+                    {order.orderStatus !== "Pending" && order.rider && (
+                      <div className="mt-2 p-2 bg-blue-100 rounded">
+                        <p className="font-semibold">Rider Information:</p>
+                        <p>Name: {order.rider.name}</p>
+                        <p>Mobile: {order.rider.mobile}</p>
+                      </div>
+                    )}
                   </div>
                 </div>
               ))

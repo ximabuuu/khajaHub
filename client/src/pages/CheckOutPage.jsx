@@ -83,6 +83,17 @@ const CheckOutPage = () => {
         }
     };
 
+    const getDeliveryCharge = () => {
+        const now = new Date();
+        const currentHour = now.getHours();
+        return currentHour >= 23 ? 120 : 60;
+    };
+
+    const deliveryCharge = getDeliveryCharge()
+
+    const showLateNightNotice = new Date().getHours() >= 23;
+
+
     return (
         <section className="bg-blue-50 p-4">
             <div className="container mx-auto p-4 flex w-full gap-5 justify-between flex-col lg:flex-row">
@@ -134,8 +145,16 @@ const CheckOutPage = () => {
                         </div>
                         <div className="flex gap-4 justify-between ml-1">
                             <p>Delivery Charge</p>
-                            <p className="font-medium">Rs. 60</p>
+                            <p className="font-medium">Rs. {deliveryCharge}</p>
                         </div>
+                        {showLateNightNotice && (
+                            <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-3 mb-4 rounded">
+                                <p className="text-sm font-medium">
+                                    Late-night delivery charges applied. (After 11 PM)
+                                </p>
+                            </div>
+                        )}
+
 
                         <div className="mt-3">
                             <label className="block font-semibold">Apply Promo Code:</label>
@@ -161,7 +180,7 @@ const CheckOutPage = () => {
 
                         <div className="font-semibold flex items-center justify-between gap-4 mt-3">
                             <p>Grand Total</p>
-                            <p>Rs. {(totalPrice - discount + 60).toFixed(2)}</p>
+                            <p>Rs. {(totalPrice - discount + deliveryCharge).toFixed(2)}</p>
                         </div>
                     </div>
 
@@ -170,7 +189,7 @@ const CheckOutPage = () => {
                             to={"/payment"}
                             state={{
                                 selectedAddress: addressList[selectedAddress],
-                                discountedPrice: (totalPrice - discount + 60).toFixed(2),
+                                discountedPrice: (totalPrice - discount + deliveryCharge).toFixed(2),
                             }}
                             onClick={handlePaymentClick}
                             className="py-2 px-4 bg-red-800 text-white hover:bg-red-700 rounded flex items-center justify-center"

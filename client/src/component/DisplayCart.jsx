@@ -11,12 +11,12 @@ import toast from 'react-hot-toast';
 
 const DisplayCart = ({ close }) => {
 
-  const { originalPriceTotal, totalPrice,totalQty } = useGlobalContext()
+  const { originalPriceTotal, totalPrice, totalQty } = useGlobalContext()
   const cartItem = useSelector(state => state.cartItem.cart)
   const user = useSelector(state => state.user)
   const navigate = useNavigate()
 
-  const redirectToCheckOut = ()=>{
+  const redirectToCheckOut = () => {
     if (user?._id) {
       navigate("/checkout")
       if (close) {
@@ -26,6 +26,17 @@ const DisplayCart = ({ close }) => {
     }
     toast("You are not Logged in yet.")
   }
+
+
+  const getDeliveryCharge = () => {
+    const now = new Date();
+    const currentHour = now.getHours();
+    return currentHour >= 23 ? 120 : 60;
+  };
+
+  const deliveryCharge = getDeliveryCharge()
+
+  const showLateNightNotice = new Date().getHours() >= 23;
 
   return (
     <section className='bg-neutral-900/50 fixed top-0 right-0 left-0 bottom-0 z-50'>
@@ -48,7 +59,7 @@ const DisplayCart = ({ close }) => {
                     cartItem[0] && (
                       cartItem.map((i, index) => {
                         return (
-                          <div key={i._id+"cart"+index} className='flex w-full gap-4 items-center '>
+                          <div key={i._id + "cart" + index} className='flex w-full gap-4 items-center '>
                             <div className='w-15 h-15 min-w-16 min-h-16 border rounded'>
                               <img src={i?.productId?.image[0]} alt="" className='object-scale-down' />
                             </div>
@@ -78,11 +89,18 @@ const DisplayCart = ({ close }) => {
                   </div>
                   <div className='flex gap-4 justify-between ml-1'>
                     <p>Delivery Charge</p>
-                    <p className='font-medium flex items-center gap-2'><span>Rs. 60</span></p>
+                    <p className='font-medium flex items-center gap-2'><span>Rs. {deliveryCharge}</span></p>
                   </div>
+                  {showLateNightNotice && (
+                    <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-3 mb-4 rounded">
+                      <p className="text-sm font-medium">
+                        Late-night delivery charges applied. (After 11 PM)
+                      </p>
+                    </div>
+                  )}
                   <div className='font-semibold flex items-center justify-between gap-4'>
                     <p>Grand Totals</p>
-                    <p>Rs. {totalPrice + 60}</p>
+                    <p>Rs. {totalPrice + deliveryCharge}</p>
                   </div>
                 </div>
 
@@ -100,10 +118,10 @@ const DisplayCart = ({ close }) => {
             <div className='p-2'>
               <div className='bg-red-800 text-white p-2 py-4 sticky bottom-3 font-bold lg:text-lg text-base rounded flex gap-4 items-center justify-between'>
                 <div>
-                  Rs. {totalPrice + 60}
+                  Rs. {totalPrice + deliveryCharge}
                 </div>
                 <div>
-                  
+
                 </div>
                 <div>
                   <button onClick={redirectToCheckOut} className='flex items-center gap-1 cursor-pointer'>

@@ -9,7 +9,11 @@ export default defineConfig({
     tailwindcss()
   ],
   resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],  // Add extensions you want Vite to resolve automatically
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
   },
-  
+  build: {
+    rollupOptions: {
+      external: ["mongoose"],
+    }
+  }
 })

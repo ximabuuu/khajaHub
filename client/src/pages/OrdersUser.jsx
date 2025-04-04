@@ -45,45 +45,43 @@ const OrdersUser = () => {
     }
 
     const updateOrderStatus = async (orderId, newStatus) => {
-        console.log(`Updating order ${orderId} to ${newStatus}...`);
         try {
             const response = await Axios({
                 ...SummaryApi.updateOrderStatus(orderId),
                 data: { orderStatus: newStatus },
             });
 
-            console.log("Response:", response.data);
-
-            setCash((prevOrders) =>
-                prevOrders.map((order) =>
-                    order._id === response.data._id ? response.data : order
-                )
-            );
-
+            if (response?.data) {
+                setCash((prevOrders) =>
+                    prevOrders.map((order) =>
+                        order._id === orderId ? { ...order, orderStatus: newStatus } : order
+                    )
+                );
+            }
         } catch (error) {
             console.error("Error updating order status:", error);
         }
     };
+
     const updateEsewaStatus = async (orderId, newStatus) => {
-        console.log(`Updating order ${orderId} to ${newStatus}...`);
         try {
             const response = await Axios({
                 ...SummaryApi.updateEsewaStatus(orderId),
                 data: { orderStatus: newStatus },
             });
 
-            console.log("Response:", response.data);
-
-            setData((prevOrders) =>
-                prevOrders.map((order) =>
-                    order._id === response.data._id ? response.data : order
-                )
-            );
-
+            if (response?.data) {
+                setData((prevOrders) =>
+                    prevOrders.map((order) =>
+                        order._id === orderId ? { ...order, orderStatus: newStatus } : order
+                    )
+                );
+            }
         } catch (error) {
             console.error("Error updating order status:", error);
         }
     };
+
 
     useEffect(() => {
         fetchData()
