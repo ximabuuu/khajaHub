@@ -44,7 +44,7 @@ const Home = () => {
             <h1 className='font-bold text-lg lg:text-2xl'>Shop by Category</h1>
           </div>
         </div>
-        <div className='container mx-auto px-4 my-2 grid grid-cols-3 md:grid-cols-6 lg:grid-cols-8 gap-2 '>
+        <div key={"1"} className='container mx-auto px-4 my-2 grid grid-cols-3 md:grid-cols-6 lg:grid-cols-8 gap-2 '>
 
           {
             loadingCategory ? (

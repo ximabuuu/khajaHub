@@ -77,7 +77,7 @@ const Orders = () => {
           {transaction.map((transaction) => (
             <div key={transaction._id} className="border p-4 rounded-lg shadow">
               <h3 className="text-lg font-bold">Order ID: {transaction.product_id}</h3>
-              <p>Total Amount: Rs. {transaction.totalAmt}</p>
+              <p>Total Amount: Rs. {transaction.amount}</p>
               <p>Payment Status: <strong>Esewa</strong></p>
               <p>Delivery Address: {transaction.delivery_address.city} - {transaction.delivery_address.address_line}</p>
               <p>Ordered on: {new Date(transaction.createdAt).toLocaleString()}</p>
