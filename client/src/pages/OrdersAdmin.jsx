@@ -88,7 +88,7 @@ const OrdersAdmin = () => {
                   <ul className="list-disc pl-6">
                     {
                       item.product_details.map((prod) => (
-                        <li key={prod.name} className="text-sm text-gray-600">{prod.name} - Qty {prod.quantity} - {prod.unit}</li>
+                        <li key={prod.name} className="text-sm text-gray-600">{prod.name} - Qty {prod.quantity} - {prod.unit} - {prod.restaurant}</li>
                       ))
                     }
                   </ul>
@@ -139,7 +139,7 @@ const OrdersAdmin = () => {
                   <ul className="list-disc pl-6">
                     {
                       order.product_details.map((prod) => (
-                        <li key={prod.name} className="text-sm text-gray-600">{prod.name} - Qty {prod.quantity} - {prod.unit}</li>
+                        <li key={prod.name} className="text-sm text-gray-600">{prod.name} - Qty {prod.quantity} - {prod.unit} - {prod.restaurant  }</li>
                       ))
                     }
                   </ul>

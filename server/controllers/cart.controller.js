@@ -14,7 +14,7 @@ export const addToCartController = async (req, res) => {
             });
         }
 
-        const { productId } = req.body
+        const { productId, restaurant } = req.body
 
         if (!productId) {
             return res.status(400).json({
@@ -26,7 +26,8 @@ export const addToCartController = async (req, res) => {
 
         const checkItemInCart = await cartProductModel.findOne({
             userId: userId,
-            productId: productId
+            productId: productId,
+            restaurant
         })
 
         if (checkItemInCart) {
@@ -38,7 +39,8 @@ export const addToCartController = async (req, res) => {
         const cartItem = new cartProductModel({
             quantity: 1,
             userId: userId,
-            productId: productId
+            productId: productId,
+            restaurant
         })
         const save = await cartItem.save()
 

@@ -180,7 +180,7 @@ export const getProductDetails = async (req, res) => {
     try {
         const { productId } = req.body
 
-        const product = await ProductModel.findOne({ _id: productId })
+        const product = await ProductModel.findOne({ _id: productId }).populate('restaurant','name')
 
      
 

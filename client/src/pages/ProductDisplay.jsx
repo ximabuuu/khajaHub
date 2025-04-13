@@ -29,6 +29,8 @@ const ProductDisplay = () => {
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState(5);
   const [userId, setUserId] = useState();
+  const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+
 
 
   const fetchReviews = async () => {
@@ -61,13 +63,13 @@ const ProductDisplay = () => {
       });
 
       if (response.data.success) {
-        setReviewText("");
-        fetchReviews(); // Refresh reviews
+        setReviewText("")
+        fetchReviews()
       }
     } catch (error) {
-      AxiosToastError(error);
+      AxiosToastError(error)
     }
-  };
+  }
 
 
   const handleNext = () => {
@@ -172,6 +174,24 @@ const ProductDisplay = () => {
         <p className='font-mono'>{data.unit}</p>
         <p className='font-mono'>Average Ratings: ({data.averageRating})⭐</p>
         <Divider />
+        
+        <select
+          onChange={(e) => {
+            const selected = data.restaurant.find(r => r._id === e.target.value);
+            setSelectedRestaurant(selected);
+          }}
+          value={selectedRestaurant?._id || ''}
+          className='p-2 rounded border border-neutral-300 focus:outline-none focus:ring-2 focus:ring-red-400'
+        >
+          <option value='' disabled>Select a Restaurant/Store</option>
+          {data.restaurant?.map((r) => (
+            <option key={r._id} value={r._id}>
+              {r.name}
+            </option>
+          ))}
+        </select>
+
+        <Divider />
         <p>Price</p>
         <div className='flex items-center gap-2 lg:gap-4'>
           <div className='border border-red-800 px-4 py-2 rounded bg-red-50 w-fit'>
@@ -189,7 +209,7 @@ const ProductDisplay = () => {
           }
         </div>
         <div className='my-2'>
-          <AddToCart data={data} />
+          <AddToCart data={data} selectedRestaurant={selectedRestaurant} />
         </div>           {/*  <button className='my-4 px-4 py-1 bg-red-800 text-white rounded border border-red-800 hover:bg-red-600'>Add</button>  */}
 
 

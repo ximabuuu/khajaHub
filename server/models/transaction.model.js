@@ -27,7 +27,9 @@ const transactionSchema = new mongoose.Schema({
         },
         name: String,
         image: Array,
-        quantity: Number
+        quantity: Number,
+        unit: String,
+        restaurant: String
     }],
     delivery_address: {
         type: mongoose.Schema.ObjectId,

@@ -14,13 +14,18 @@ export const CashOnDelivery = async (req, res) => {
         const orderId = `ORD-${new mongoose.Types.ObjectId()}`;
 
 
-        const products = list_items.map(el => ({
-            productId: el.productId._id,
-            name: el.productId.name,
-            image: el.productId.image,
-            quantity: el.quantity,
-            unit: el.productId.unit
-        }));
+        const products = list_items.map(el => {
+            console.log(el)
+            return{
+
+                productId: el.productId._id,
+                name: el.productId.name,
+                image: el.productId.image,
+                quantity: el.quantity,
+                unit: el.productId.unit,
+                restaurant: el.restaurant
+            }
+        });
 
         const payload = {
             userId: userId,

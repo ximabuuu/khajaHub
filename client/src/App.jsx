@@ -102,7 +102,7 @@ function App() {
           key={location.pathname}
           initial={{ transform: "translateX(-100px)" }}
           animate={{ transform: "translateX(0px)" }}
-          transition={{ type: "spring" }}
+          transition={{ type: "stiffness" }}
         >
           <Outlet />
         </motion.div>

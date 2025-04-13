@@ -50,7 +50,7 @@ const Orders = () => {
                 <ul className="list-disc pl-5">
                   {order.product_details.map((product) => (
                     <li key={product.productId}>
-                      {product.name} - {product.quantity} {product.unit}
+                      {product.name} - Qty-{product.quantity} - {product.restaurant}
                     </li>
                   ))}
                 </ul>
@@ -86,7 +86,7 @@ const Orders = () => {
                 <ul className="list-disc pl-5">
                   {transaction.product_details.map((product) => (
                     <li key={product.productId}>
-                      {product.name} - {product.quantity} {product.unit}
+                      {product.name} - Qty {product.quantity} - {product.restaurant}
                     </li>
                   ))}
                 </ul>

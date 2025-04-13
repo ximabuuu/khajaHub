@@ -65,6 +65,7 @@ const DisplayCart = ({ close }) => {
                             </div>
                             <div className='w-full max-w-sm'>
                               <p className='text-ellipsis line-clamp-1'>{i?.productId?.name}</p>
+                              <p className='text-xs text-slate-700'>{i?.restaurant}</p>
                               <p className='text-xs text-slate-700'>{i?.productId?.unit}</p>
                               <p className='text-sm font-semibold'>Rs. {DiscountedPrice(i?.productId?.price, i?.productId?.discount)}</p>
                             </div>

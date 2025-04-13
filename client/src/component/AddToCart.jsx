@@ -9,25 +9,31 @@ import { useSelector } from 'react-redux'
 import { FiPlus } from "react-icons/fi";
 import { FiMinus } from "react-icons/fi";
 
-const AddToCart = ({ data }) => {
+const AddToCart = ({ data, selectedRestaurant }) => {
 
     const [loading, setLoading] = useState(false)
-    const { fetchCartItem,updateCartItem,deleteCartItem } = useGlobalContext()
+    const { fetchCartItem, updateCartItem, deleteCartItem } = useGlobalContext()
     const cartItem = useSelector(state => state.cartItem.cart)
     const [isThere, setIsThere] = useState(false)
-    const [qty,setQty] = useState(0)
-    const [cartItemDetails,setCartItemsDetails] = useState()
+    const [qty, setQty] = useState(0)
+    const [cartItemDetails, setCartItemsDetails] = useState()
 
     const handleAdd = async (e) => {
         e.preventDefault()
         e.stopPropagation()
+
+        if (!selectedRestaurant) {
+            toast.error("Please select a restaurant")
+            return
+        }
 
         try {
             setLoading(true)
             const response = await Axios({
                 ...SummaryApi.addtocart,
                 data: {
-                    productId: data?._id
+                    productId: data?._id,
+                    restaurant: selectedRestaurant?.name
                 }
             })
 
@@ -45,34 +51,33 @@ const AddToCart = ({ data }) => {
         } finally {
             setLoading(false)
         }
-
     }
 
     useEffect(() => {
         const checkingItem = cartItem.some(item => item.productId._id === data._id)
         setIsThere(checkingItem)
 
-        const cartQty = cartItem.find(item => item.productId._id === data._id) 
+        const cartQty = cartItem.find(item => item.productId._id === data._id)
         setQty(cartQty?.quantity)
         setCartItemsDetails(cartQty)
     }, [data, cartItem])
 
-    const increaseQty = (e)=>{
+    const increaseQty = (e) => {
         e.preventDefault()
         e.stopPropagation()
 
-        updateCartItem(cartItemDetails?._id,qty+1)
+        updateCartItem(cartItemDetails?._id, qty + 1)
     }
 
-    const decreaseQty = (e)=>{
+    const decreaseQty = (e) => {
         e.preventDefault()
         e.stopPropagation()
         if (qty === 1) {
             deleteCartItem(cartItemDetails?._id)
-        }else{
-            updateCartItem(cartItemDetails?._id,qty-1)
+        } else {
+            updateCartItem(cartItemDetails?._id, qty - 1)
         }
-    } 
+    }
 
     return (
         <div className='w-full max-w-[150px]'>

@@ -25,7 +25,8 @@ const ProductCard = ({ data }) => {
       const response = await Axios({
         ...SummaryApi.addtocart,
         data: {
-          productId: data?._id
+          productId: data?._id,
+          restaurant: data?.selectedRestaurant?._id
         }
       })
 
@@ -74,8 +75,8 @@ const ProductCard = ({ data }) => {
           <div className='lg:font-semibold font-medium '>
             Rs.{DiscountedPrice(data.price, data.discount)}
           </div>
-          <div className=''>
-            <AddToCart data={data} />
+          <div className='bg-red-800 hover:bg-red-600 text-white lg:px-4 py-1 px-2  rounded'>
+            <Link to={url}>Add</Link>
           </div>
         </div>
       </div>

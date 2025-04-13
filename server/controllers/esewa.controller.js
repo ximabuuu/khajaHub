@@ -7,10 +7,6 @@ const EsewaInitiatePayment = async (req, res) => {
   const userId = req.userId
   const { amount, productId, list_items, addressId, totalQty } = req.body;  //data coming from frontend
   try {
-
-
-
-
     const reqPayment = await EsewaPaymentGateway(
       amount, 0, 0, 0, productId, process.env.MERCHANT_ID, process.env.SECRET, process.env.SUCCESS_URL, process.env.FAILURE_URL, process.env.ESEWAPAYMENT_URL, undefined, undefined)
     if (!reqPayment) {
@@ -23,7 +19,8 @@ const EsewaInitiatePayment = async (req, res) => {
       name: el.productId.name,
       image: el.productId.image,
       quantity: el.quantity,
-      unit: el.productId.unit
+      unit: el.productId.unit,
+      restaurant: el.restaurant
     }));
 
     if (reqPayment.status === 200) {
@@ -55,7 +52,6 @@ const EsewaInitiatePayment = async (req, res) => {
 
   }
 }
-
 
 
 const paymentStatus = async (req, res) => {
