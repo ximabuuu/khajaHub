@@ -32,6 +32,7 @@ import PrivacyPolicy from '../component/PrivacyPolicy.jsx'
 import PopUp from '../pages/PopUp.jsx'
 import RiderPerm from '../layouts/RiderPerm.jsx'
 import OrdersUser from '../pages/OrdersUser.jsx'
+import RestaurantMenu from '../component/RestaurantMenu.jsx'
 
 const router = createBrowserRouter([
     {
@@ -165,6 +166,10 @@ const router = createBrowserRouter([
             {
                 path : "privacypolicy",
                 element : <PrivacyPolicy/>
+            },
+            {
+                path : "restaurant/:id",
+                element : <RestaurantMenu/>
             }
         ]
     }

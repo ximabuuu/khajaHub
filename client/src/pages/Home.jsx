@@ -8,6 +8,7 @@ import ProductByCategory from '../component/ProductByCategory.jsx'
 import Popup from '../component/PopUp.jsx'
 import Axios from '../utils/axios'
 import SummaryApi from '../config/SummaryApi.js'
+import { Helmet } from 'react-helmet'
 
 const Home = () => {
   const loadingCategory = useSelector(state => state.product.loadingCategory)
@@ -54,6 +55,9 @@ const Home = () => {
 
   return (
     <section className='bg-white'>
+      <Helmet>
+        <title>Khaja</title>
+      </Helmet>
       <div className="flex flex-col items-center justify-center">
         <Popup imageUrl={'https://res.cloudinary.com/drcjnrrbr/image/upload/v1743501006/Orange_White_Modern_Sale_Instagram_Post_bqxsfv.png'} />
       </div>

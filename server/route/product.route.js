@@ -1,5 +1,5 @@
 import {Router} from 'express'
-import { AddProductController, deleteProductController, getProductByCategory, getProductByCateSubCate, getProductController, getProductDetails, searchProduct, updateProductController } from '../controllers/product.controller.js'
+import { AddProductController, deleteProductController, getProductByCategory, getProductByCateSubCate, getProductByRestaurant, getProductController, getProductDetails, searchProduct, updateProductController } from '../controllers/product.controller.js'
 import auth from '../middleware/auth.js'
 import { admin } from '../middleware/admin.js'
 
@@ -9,6 +9,7 @@ productRouter.post('/add',auth,admin,AddProductController)
 productRouter.get('/get',getProductController)
 productRouter.post("/get-by-category",getProductByCategory)
 productRouter.post('/get-by-category-subcategory',getProductByCateSubCate)
+productRouter.post('/restaurant',getProductByRestaurant)
 productRouter.post('/get-product-details',getProductDetails)
 
 productRouter.put('/update',auth,admin,updateProductController)

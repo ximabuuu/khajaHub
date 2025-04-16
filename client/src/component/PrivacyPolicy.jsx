@@ -1,8 +1,12 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 
 const PrivacyPolicy = () => {
     return (
         <div className="bg-gray-100 py-10 px-6 md:px-16">
+            <Helmet>
+                <title>Privacy Policy</title>
+            </Helmet>
             <div className="container mx-auto text-center md:text-left max-w-4xl">
                 <h1 className="text-4xl font-extrabold text-gray-900 mb-6">Privacy Policy</h1>
                 <p className="text-lg text-gray-700 mb-6 leading-relaxed">

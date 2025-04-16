@@ -26,6 +26,7 @@ const AddToCart = ({ data, selectedRestaurant }) => {
             toast.error("Please select a restaurant")
             return
         }
+        setLoading(true)
 
         try {
             setLoading(true)

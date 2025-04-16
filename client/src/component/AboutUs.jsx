@@ -1,8 +1,12 @@
 import React from 'react';
+import {Helmet} from 'react-helmet'
 
 const AboutUs = () => {
     return (
         <div className="bg-gray-100 min-h-screen py-10 px-6 md:px-16">
+            <Helmet>
+                <title>About</title>
+            </Helmet>
             <div className="container mx-auto text-center md:text-left max-w-4xl">
                 <h1 className="text-5xl font-extrabold text-gray-900 mb-6">About Us</h1>
                 <p className="text-lg text-gray-700 mb-6 leading-relaxed">

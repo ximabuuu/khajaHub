@@ -61,7 +61,7 @@ export const getProductController = async (req, res) => {
         const skip = (page - 1) * limit
 
         const [data, totalcount] = await Promise.all([
-            ProductModel.find(query).sort({createdAt : -1}).skip(skip).limit(limit).populate('category subCategory restaurant'),
+            ProductModel.find(query).sort({ createdAt: -1 }).skip(skip).limit(limit).populate('category subCategory restaurant'),
             ProductModel.countDocuments(query)
         ])
 
@@ -96,7 +96,7 @@ export const getProductByCategory = async (req, res) => {
 
         const product = await ProductModel.find({
             category: { $in: id }
-        }).limit(10).sort({createdAt : -1})
+        }).limit(10).sort({ createdAt: -1 })
 
         return res.json({
             message: "Category Product List",
@@ -153,7 +153,7 @@ export const getProductByCateSubCate = async (req, res) => {
         const skip = (page - 1) * limit
 
         const [data, dataCount] = await Promise.all([
-            ProductModel.find(query).skip(skip).sort({createdAt : -1}),
+            ProductModel.find(query).skip(skip).sort({ createdAt: -1 }),
             ProductModel.countDocuments(query)
         ])
 
@@ -176,13 +176,30 @@ export const getProductByCateSubCate = async (req, res) => {
     }
 }
 
+export const getProductByRestaurant = async (req, res) => {
+    try {
+        const { restaurantId } = req.body
+
+        if (!restaurantId) {
+            return res.status(400).json({ message: 'restaurantId is required' })
+        }
+
+        const products = await ProductModel.find({ restaurant: restaurantId }).populate('restaurant')
+
+        res.json({ success: true, data: products })
+    } catch (error) {
+        console.error('Error fetching products by restaurant:', error)
+        res.status(500).json({ success: false, message: 'Server Error' })
+    }
+}
+
 export const getProductDetails = async (req, res) => {
     try {
         const { productId } = req.body
 
-        const product = await ProductModel.findOne({ _id: productId }).populate('restaurant','name')
+        const product = await ProductModel.findOne({ _id: productId }).populate('restaurant', 'name')
 
-     
+
 
         return res.json({
             message: "Product Details",

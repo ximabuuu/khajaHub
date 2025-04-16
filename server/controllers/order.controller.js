@@ -91,26 +91,25 @@ export const fetchAllCashOnDeliv = async (req, res) => {
 }
 
 export const updateOrderStatus = async (req, res) => {
-    const { orderId } = req.params;
-    const { orderStatus } = req.body;
-    const riderId = req.userId; // Extract rider ID from authenticated user
+    const { orderId } = req.params
+    const { orderStatus } = req.body
+    const riderId = req.userId
 
     try {
-        // Fetch the user details
         const rider = await UserModel.findById(riderId);
 
         if (!rider || rider.role !== "RIDER") {
-            return res.status(403).json({ message: "Only riders can accept orders" });
+            return res.status(403).json({ message: "Only riders can accept orders" })
         }
 
         const updatedOrder = await OrderModel.findByIdAndUpdate(
             orderId,
-            { orderStatus, rider: riderId }, // Assign Rider
+            { orderStatus, rider: riderId },
             { new: true }
-        ).populate("rider", "name mobile"); // Populate Rider Details
+        ).populate("rider", "name mobile")
 
         if (!updatedOrder) {
-            return res.status(404).json({ message: "Order not found" });
+            return res.status(404).json({ message: "Order not found" })
         }
 
         res.json({
@@ -125,9 +124,9 @@ export const updateOrderStatus = async (req, res) => {
             message: "Error updating order status",
             success: false,
             error: true
-        });
+        })
     }
-};
+}
 
 export const getUserOrders = async (req, res) => {
     try {
@@ -153,4 +152,4 @@ export const getUserOrders = async (req, res) => {
             success: false
         });
     }
-};
+}

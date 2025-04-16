@@ -210,7 +210,7 @@ const ProductDisplay = () => {
         </div>
         <div className='my-2'>
           <AddToCart data={data} selectedRestaurant={selectedRestaurant} />
-        </div>           {/*  <button className='my-4 px-4 py-1 bg-red-800 text-white rounded border border-red-800 hover:bg-red-600'>Add</button>  */}
+        </div>           
 
 
         <Divider />

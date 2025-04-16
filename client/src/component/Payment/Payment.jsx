@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { generateUniqueId } from "esewajs";
+import { v4 as uuidv4 } from "uuid"; 
 import Axios from "../../utils/axios";
 import SummaryApi from "../../config/SummaryApi.js";
 import toast from "react-hot-toast";
@@ -15,7 +15,6 @@ const Payment = () => {
     const location = useLocation();
     const selectedAddress = location.state?.selectedAddress;
 
-    // Get the discounted price from CheckoutPage
     const [amount, setAmount] = useState(location.state?.discountedPrice || 0);
 
     useEffect(() => {
@@ -27,9 +26,11 @@ const Payment = () => {
     const handlePayment = async (e) => {
         e.preventDefault();
 
+        const uniqueProductId = uuidv4(); 
+
         const requestData = {
             amount: amount,
-            productId: generateUniqueId(),
+            productId: uniqueProductId,
             list_items: cartItemsList,
             addressId: selectedAddress,
             totalQty: totalQty

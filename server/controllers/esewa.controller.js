@@ -5,7 +5,7 @@ import UserModel from "../models/user.model.js";
 
 const EsewaInitiatePayment = async (req, res) => {
   const userId = req.userId
-  const { amount, productId, list_items, addressId, totalQty } = req.body;  //data coming from frontend
+  const { amount, productId, list_items, addressId, totalQty } = req.body
   try {
     const reqPayment = await EsewaPaymentGateway(
       amount, 0, 0, 0, productId, process.env.MERCHANT_ID, process.env.SECRET, process.env.SUCCESS_URL, process.env.FAILURE_URL, process.env.ESEWAPAYMENT_URL, undefined, undefined)
@@ -53,7 +53,6 @@ const EsewaInitiatePayment = async (req, res) => {
   }
 }
 
-
 const paymentStatus = async (req, res) => {
   const { product_id } = req.body; // Extract data from request body
   try {
@@ -79,7 +78,7 @@ const paymentStatus = async (req, res) => {
     console.error("Error updating transaction status:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
-};
+}
 
 export { EsewaInitiatePayment, paymentStatus }
 

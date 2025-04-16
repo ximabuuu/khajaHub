@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { UrlConverter } from '../utils/UrlConverter'
-import { MdDeliveryDining } from "react-icons/md";
-import { DiscountedPrice } from '../utils/DiscountedPrice';
-import AxiosToastError from '../utils/AxiosToastError';
-import Axios from '../utils/axios';
-import SummaryApi from '../config/SummaryApi.js';
-import toast from 'react-hot-toast';
-import { useGlobalContext } from '../global/globalFunc';
-import AddToCart from './AddToCart';
+import { MdDeliveryDining } from "react-icons/md"
+import { DiscountedPrice } from '../utils/DiscountedPrice'
+import AxiosToastError from '../utils/AxiosToastError'
+import Axios from '../utils/axios'
+import SummaryApi from '../config/SummaryApi.js'
+import toast from 'react-hot-toast'
+import { useGlobalContext } from '../global/globalFunc'
+import AddToCart from './AddToCart'
 
-const ProductCard = ({ data }) => {
+const ProductCard = ({ data, selectedRestaurant }) => {
 
   const url = `/product/${UrlConverter(data.name)}-${data._id}`
   const [loading, setLoading] = useState(false)
@@ -26,7 +26,7 @@ const ProductCard = ({ data }) => {
         ...SummaryApi.addtocart,
         data: {
           productId: data?._id,
-          restaurant: data?.selectedRestaurant?._id
+          restaurant: selectedRestaurant?._id
         }
       })
 
@@ -47,36 +47,44 @@ const ProductCard = ({ data }) => {
   }
 
   return (
-    <Link to={url}>
-      <div className='border border-gray-900/40 bg-white shadow-md  p-4 lg:p-4 grid lg:gap-3 gap-3 mx-auto min-w-52  lg:max-w-52 lg:min-w-52 rounded cursor-pointer '>
-        <div className='lg:min-h-32 w-full  max-h-34 rounded'>
-          <img src={data.image[0]} alt="product image" className='w-full h-full object-scale-down lg:scale-110 rounded' />
+    <Link to={url} className="transform transition-transform duration-300 hover:scale-105">
+      <div className='border border-gray-200 bg-white shadow-sm hover:shadow-xl transition-shadow duration-300 p-4 rounded-2xl grid gap-3 min-w-52 max-w-64'>
+        <div className='aspect-square w-full overflow-hidden rounded-xl'>
+          <img
+            src={data.image[0]}
+            alt="product image"
+            className='w-full h-full object-cover rounded-xl hover:scale-105 transition-transform duration-300'
+          />
         </div>
-        <div className='flex items-center lg:justify-between'>
-          <div className='flex gap-1 rounded text-xs mx-2 lg:mx-0 lg:text-sm w-fit px-1 p-[1px] text-red-800 bg-red-50'>
-            <MdDeliveryDining size={17} className='' /> 30 Mins
+
+        <div className='flex items-center justify-between'>
+          <div className='flex gap-1 items-center text-xs px-2 py-1 text-red-700 bg-red-100 rounded'>
+            <MdDeliveryDining size={16} /> 30 Mins
           </div>
-          <div>
-            {
-              data.discount !== 0 && (
-                <p className='text-red-800 text-xs mx-2 lg:mx-0 lg:text-sm w-fit px-1 p-[1px] bg-red-50 rounded '>{data.discount}% off</p>
-              )
-            }
-          </div>
+          {
+            data.discount !== 0 && (
+              <div className='text-xs font-semibold px-2 py-1 bg-yellow-100 text-yellow-700 rounded'>
+                {data.discount}% off
+              </div>
+            )
+          }
         </div>
-        <div className='lg:px-0 px-2 font-medium text-ellipsis text-sm lg:text-base line-clamp-1 lg:line-clamp-1 '>
+
+        <h3 className='font-semibold text-sm lg:text-base line-clamp-1'>
           {data.name}
+        </h3>
+
+        <div className='text-sm text-gray-600 flex justify-between'>
+          <span>{data.unit}</span>
+          <span>⭐ {data.averageRating}</span>
         </div>
-        <div className='w-full text-sm lg:text-base px-2 lg:px-0 flex'>
-          <div className='flex-1'>{data.unit}</div>
-          <div className='flex-1 text-right'>⭐{data.averageRating}</div>
-        </div>
-        <div className=' flex items-center justify-between gap-1 lg:gap-3 text-sm lg:text-base px-2 lg:px-0 '>
-          <div className='lg:font-semibold font-medium '>
-            Rs.{DiscountedPrice(data.price, data.discount)}
+
+        <div className='flex items-center justify-between'>
+          <div className='text-base font-bold text-gray-800'>
+            Rs. {DiscountedPrice(data.price, data.discount)}
           </div>
           <div className='bg-red-800 hover:bg-red-600 text-white lg:px-4 py-1 px-2  rounded'>
-            <Link to={url}>Add</Link>
+            Add
           </div>
         </div>
       </div>

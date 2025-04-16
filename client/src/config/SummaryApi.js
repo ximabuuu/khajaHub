@@ -216,6 +216,10 @@ const SummaryApi = {
     getPopUp: {
         url: '/api/popup/get',
         method: 'GET'
+    },
+    getProductByRestaurant: {
+        url: '/api/product/restaurant',
+        method: 'POST'
     }
 }
 
