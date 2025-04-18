@@ -153,6 +153,10 @@ const SummaryApi = {
         url: '/api/review/get',
         method: 'GET'
     },
+    getAllReview: {
+        url: '/api/review/getall',
+        method: 'GET'
+    },
     esewaPay: {
         url: '/api/esewa/initiate-payment',
         method: 'POST'

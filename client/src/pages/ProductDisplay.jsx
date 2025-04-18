@@ -151,10 +151,6 @@ const ProductDisplay = () => {
           </div>
         </div>
         <div className='my-2 hidden lg:grid gap-3'>
-          <div>
-            <p className='font-semibold'>Descriptions</p>
-            <p className='text-base'>{data.description}</p>
-          </div>
           {
             data?.more_details && Object.keys(data?.more_details).map((ele, index) => {
               return (
@@ -169,12 +165,23 @@ const ProductDisplay = () => {
       </div>
       {/* right part */}
       <div className='p-4 lg:pl-7 text-base lg:text-lg'>
-        <p className='flex gap-2 bg-red-200 w-fit px-2 rounded-full'><MdDeliveryDining size={28} />30 Min</p>
+
         <h2 className='font-semibold text-lg lg:text-3xl'>{data.name}</h2>
         <p className='font-mono'>{data.unit}</p>
-        <p className='font-mono'>Average Ratings: ({data.averageRating})⭐</p>
+        <div className='flex gap-2'>
+          <p className='font-mono'> ({data.averageRating})⭐</p> 
+          <p className='flex gap-2 w-fit px-2 rounded-full'><MdDeliveryDining size={28} />30 Min</p>
+        </div>
+
         <Divider />
-        
+
+        <div>
+          <p className='font-semibold'>Descriptions</p>
+          <p className='text-base'>{data.description}</p>
+        </div>
+
+        <Divider />
+
         <select
           onChange={(e) => {
             const selected = data.restaurant.find(r => r._id === e.target.value);
@@ -210,11 +217,11 @@ const ProductDisplay = () => {
         </div>
         <div className='my-2'>
           <AddToCart data={data} selectedRestaurant={selectedRestaurant} />
-        </div>           
+        </div>
 
 
         <Divider />
-        <h2 className='font-semibold'>Why order from Khaja?</h2>
+        {/* <h2 className='font-semibold'>Why order from Khaja?</h2>
         <div>
           <div className='flex items-center gap-4 my-2'>
             <img src={deliver} alt="Fast Delivery" className='w-20 h-20' />
@@ -258,7 +265,7 @@ const ProductDisplay = () => {
             })
           }
         </div>
-        <Divider />
+        <Divider /> */}
         <h2 className='font-semibold'>Customer Reviews</h2>
 
         {/* Review List */}

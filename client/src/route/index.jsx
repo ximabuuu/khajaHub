@@ -170,6 +170,10 @@ const router = createBrowserRouter([
             {
                 path : "restaurant/:id",
                 element : <RestaurantMenu/>
+            },
+            {
+                path : "restaurant",
+                element : <RestaurantMenu/>
             }
         ]
     }

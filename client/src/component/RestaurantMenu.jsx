@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom'
 import Axios from '../utils/axios'
 import SummaryApi from '../config/SummaryApi'
 import { UrlConverter } from '../utils/UrlConverter'
-import AddToCart from './AddToCart'
 import ProductCard from './ProductCardRestro'
 
 const RestaurantMenu = () => {
@@ -15,7 +14,6 @@ const RestaurantMenu = () => {
     const [menu, setMenu] = useState([])
 
     const extractRestaurantId = (paramId) => {
-        // Assuming URL is like name-restaurantId
         return paramId?.split('-').pop()
     }
 
@@ -49,8 +47,16 @@ const RestaurantMenu = () => {
 
     useEffect(() => {
         const restaurantId = extractRestaurantId(id)
+
+        // Wait until restaurants are fetched
+        if (restaurants.length === 0) return
+
         if (restaurantId) {
             fetchMenu(restaurantId)
+        } else {
+            // No ID in URL = no restaurant selected
+            setSelectedRestaurant(null)
+            setMenu([])
         }
     }, [id, restaurants])
 
@@ -69,8 +75,8 @@ const RestaurantMenu = () => {
                             key={restro._id}
                             onClick={() => handleRestaurantSelect(restro)}
                             className={`p-3 rounded-lg cursor-pointer transition-colors duration-200 ${selectedRestaurant?._id === restro._id
-                                ? 'bg-blue-400 text-white font-semibold'
-                                : 'hover:bg-blue-100 text-gray-800'
+                                    ? 'bg-blue-400 text-white font-semibold'
+                                    : 'hover:bg-blue-100 text-gray-800'
                                 }`}
                         >
                             {restro.name}
@@ -79,28 +85,29 @@ const RestaurantMenu = () => {
                 </div>
             </aside>
 
-
-            {/* Menu Content */}
+            {/* Right Side */}
             <main className="flex-1 p-4 max-h-[100vh] overflow-auto">
-                <h1 className="text-2xl font-bold mb-6 text-gray-800">
-                    {selectedRestaurant?.name || "Restaurant"} Menu
-                </h1>
-
-                {
-                    menu.length > 0 ? (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
-                            {menu.map(item => (
-                                <ProductCard key={item._id} data={item} selectedRestaurant={selectedRestaurant} />
-                            ))}
-
-                        </div>
-                    ) : (
-                        <p className="text-gray-500 text-center">No items available.</p>
-                    )
-                }
-
+                {selectedRestaurant ? (
+                    <>
+                        <h1 className="text-2xl font-bold mb-6 text-gray-800">
+                            {selectedRestaurant.name} Menu
+                        </h1>
+                        {menu.length > 0 ? (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                                {menu.map(item => (
+                                    <ProductCard key={item._id} data={item} selectedRestaurant={selectedRestaurant} />
+                                ))}
+                            </div>
+                        ) : (
+                            <p className="text-gray-500 text-center">No items available.</p>
+                        )}
+                    </>
+                ) : (
+                    <div className="h-full flex items-center justify-center text-gray-500 text-lg">
+                        Please select a restaurant to view the menu.
+                    </div>
+                )}
             </main>
-
         </div>
     )
 }
