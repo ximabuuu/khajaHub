@@ -4,6 +4,7 @@ import Axios from '../utils/axios'
 import SummaryApi from '../config/SummaryApi'
 import { UrlConverter } from '../utils/UrlConverter'
 import ProductCard from './ProductCardRestro'
+import ProdCardByCate from './ProdCardByCate'
 
 const RestaurantMenu = () => {
     const { id } = useParams()
@@ -12,6 +13,7 @@ const RestaurantMenu = () => {
     const [restaurants, setRestaurants] = useState([])
     const [selectedRestaurant, setSelectedRestaurant] = useState(null)
     const [menu, setMenu] = useState([])
+    const [loading, setLoading] = useState(false)
 
     const extractRestaurantId = (paramId) => {
         return paramId?.split('-').pop()
@@ -26,39 +28,38 @@ const RestaurantMenu = () => {
         }
     }
 
+    useEffect(() => {
+        fetchRestaurants()
+    }, [])
+
     const fetchMenu = async (restaurantId) => {
         try {
+            setLoading(true)
             const res = await Axios({
                 method: 'POST',
                 url: SummaryApi.getProductByRestaurant.url,
                 data: { restaurantId }
             })
-            setMenu(res.data.data || [])
             const restaurant = restaurants.find(r => r._id === restaurantId)
             setSelectedRestaurant(restaurant || null)
+            setMenu(res.data.data || [])
         } catch (error) {
             console.error("Error fetching menu", error)
+        } finally {
+            setLoading(false)
         }
     }
 
     useEffect(() => {
-        fetchRestaurants()
-    }, [])
-
-    useEffect(() => {
         const restaurantId = extractRestaurantId(id)
 
-        // Wait until restaurants are fetched
         if (restaurants.length === 0) return
 
         if (restaurantId) {
             fetchMenu(restaurantId)
-        } else {
-            // No ID in URL = no restaurant selected
-            setSelectedRestaurant(null)
-            setMenu([])
         }
     }, [id, restaurants])
+
 
     const handleRestaurantSelect = (restro) => {
         navigate(`/restaurant/${UrlConverter(restro.name)}-${restro._id}`)
@@ -75,8 +76,8 @@ const RestaurantMenu = () => {
                             key={restro._id}
                             onClick={() => handleRestaurantSelect(restro)}
                             className={`p-3 rounded-lg cursor-pointer transition-colors duration-200 ${selectedRestaurant?._id === restro._id
-                                    ? 'bg-blue-400 text-white font-semibold'
-                                    : 'hover:bg-blue-100 text-gray-800'
+                                ? 'bg-blue-400 text-white font-semibold'
+                                : 'hover:bg-blue-100 text-gray-800'
                                 }`}
                         >
                             {restro.name}
@@ -87,12 +88,19 @@ const RestaurantMenu = () => {
 
             {/* Right Side */}
             <main className="flex-1 p-4 max-h-[100vh] overflow-auto">
-                {selectedRestaurant ? (
+                {id ? (
                     <>
                         <h1 className="text-2xl font-bold mb-6 text-gray-800">
-                            {selectedRestaurant.name} Menu
+                            {selectedRestaurant?.name || 'Loading...'}
                         </h1>
-                        {menu.length > 0 ? (
+
+                        {loading ? (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                                {Array(10).fill(0).map((_, index) => (
+                                    <ProdCardByCate key={index} />
+                                ))}
+                            </div>
+                        ) : menu.length > 0 ? (
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-6">
                                 {menu.map(item => (
                                     <ProductCard key={item._id} data={item} selectedRestaurant={selectedRestaurant} />
@@ -108,6 +116,8 @@ const RestaurantMenu = () => {
                     </div>
                 )}
             </main>
+
+
         </div>
     )
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import logo from '../assets/logo.png'
 import Search from './Search'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
@@ -13,6 +13,7 @@ import { useGlobalContext } from '../global/globalFunc';
 import DisplayCart from './DisplayCart';
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoMdClose } from "react-icons/io";
+import ReactDOM from 'react-dom'
 
 const Header = () => {
     const [isMobile] = useMobile()
@@ -33,8 +34,21 @@ const Header = () => {
         navigate("/user")
     }
 
+    useEffect(() => {
+        if (isMobileMenuOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, [isMobileMenuOpen]);
+
+
     return (
-        <header className='h-32 lg:h-24 lg:shadow-md sticky top-0 z-50 flex flex-col justify-center gap-1 bg-white/80 backdrop-blur-md'>
+        <header className='h-32 lg:h-24 lg:shadow-md sticky top-0 overflow-visible z-50 flex flex-col justify-center gap-1 bg-white/80 backdrop-blur-md'>
             {
                 !(isSearchPage && isMobile) && (
                     <>
@@ -75,13 +89,18 @@ const Header = () => {
                                                 <MdManageAccounts size={30} />
                                                 {userMenu ? <GoTriangleUp size={25} /> : <GoTriangleDown size={25} />}
                                             </div>
-                                            {userMenu && (
-                                                <div className='absolute right-0 top-12'>
-                                                    <div className='bg-white rounded p-4 min-w-52 lg:shadow-lg'>
+                                            {userMenu && ReactDOM.createPortal(
+                                                <div
+                                                    className="fixed right-6 top-20 z-[1000]"
+                                                    onClick={(e) => e.stopPropagation()}
+                                                >
+                                                    <div className="bg-white rounded p-4 min-w-52 lg:shadow-lg  overflow-y-auto">
                                                         <Users close={handleUserMenu} />
                                                     </div>
-                                                </div>
+                                                </div>,
+                                                document.body
                                             )}
+
                                         </div>
                                     ) : (
                                         <button onClick={redirectToLoginPage} className='text-lg px-3 hover:text-red-800'>Login</button>
@@ -101,28 +120,38 @@ const Header = () => {
                         </div>
 
                         {/* Mobile Sidebar Menu */}
-                        <div className={`fixed top-0 right-0 h-screen w-64 bg-white shadow-lg z-50 transform transition-transform duration-300 ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"}`}>
-                            <div className="flex justify-between items-center px-4 py-3 border-b">
-                                <h2 className="text-xl font-semibold">Menu</h2>
-                                <button onClick={() => setIsMobileMenuOpen(false)}>
-                                    <IoMdClose size={26} />
-                                </button>
-                            </div>
-                            <nav className="flex flex-col gap-4 p-4 text-lg font-semibold">
-                                <Link to='/' onClick={() => setIsMobileMenuOpen(false)} className='hover:text-red-800'>Home</Link>
-                                <Link to='/menu' onClick={() => setIsMobileMenuOpen(false)} className='hover:text-red-800'>Menu</Link>
-                                <Link to='/restaurant' onClick={() => setIsMobileMenuOpen(false)} className='hover:text-red-800'>Restaurants</Link>
-                                <Link to='/contact' onClick={() => setIsMobileMenuOpen(false)} className='hover:text-red-800'>Contact</Link>
-                            </nav>
-                        </div>
+                        {ReactDOM.createPortal(
+                            <div
+                                className={`fixed top-0 right-0 h-screen w-64 bg-white shadow-lg z-[9999] lg:hidden md:hidden transform transition-transform duration-300 
+                                ${isMobileMenuOpen ? "translate-x-0 pointer-events-auto opacity-100" : "translate-x-full pointer-events-none opacity-0"}`}
+                            >
+                                <div className="flex justify-between items-center px-4 py-3 border-b">
+                                    <h2 className="text-xl font-semibold">Menu</h2>
+                                    <button onClick={() => setIsMobileMenuOpen(false)}>
+                                        <IoMdClose size={26} />
+                                    </button>
+                                </div>
+                                <nav className="flex flex-col gap-4 p-4 text-lg font-semibold">
+                                    <Link to='/' onClick={() => setIsMobileMenuOpen(false)} className='hover:text-red-800'>Home</Link>
+                                    <Link to='/menu' onClick={() => setIsMobileMenuOpen(false)} className='hover:text-red-800'>Menu</Link>
+                                    <Link to='/restaurant' onClick={() => setIsMobileMenuOpen(false)} className='hover:text-red-800'>Restaurants</Link>
+                                    <Link to='/contact' onClick={() => setIsMobileMenuOpen(false)} className='hover:text-red-800'>Contact</Link>
+                                </nav>
+                            </div>,
+                            document.body
+                        )}
+
+
 
                         {/* Backdrop when sidebar is open */}
-                        {isMobileMenuOpen && (
+                        {isMobileMenuOpen && ReactDOM.createPortal(
                             <div
-                                className="fixed"
+                                className="fixed inset-0 bg-black/40 z-[9998]"
                                 onClick={() => setIsMobileMenuOpen(false)}
-                            />
+                            />,
+                            document.body
                         )}
+
                     </>
                 )
             }

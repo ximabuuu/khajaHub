@@ -524,33 +524,63 @@ export async function userDetails(request, response) {
 }
 
 export async function contactController(req, res) {
-    const { name, email, message } = req.body;
+    if (req.method !== 'POST') {
+        return res.status(405).json({ success: false, error: 'Method not allowed' });
+    }
 
-    if (!name || !email || !message) {
+    const { name, email, message, phone, inquiryType } = req.body;
+
+    // Validate required fields
+    if (!name || !email || !message || !inquiryType) {
         return res.status(400).json({ success: false, error: 'All fields are required.' });
     }
 
     try {
+        // Create transporter
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: process.env.EMAIL_USER, 
-                pass: process.env.EMAIL_PASS  
-            }
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS,
+            },
         });
 
+        // Setup email data
         const mailOptions = {
             from: email,
-            to: 'khajakhau69@gmail.com', 
+            to: 'khajakhau69@gmail.com', // Your recipient email
             subject: `New Contact Form Submission from ${name}`,
-            text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`
+            text: `
+                    Name: ${name}
+                    Email: ${email}
+                    Phone: ${phone || 'Not provided'}
+                    Inquiry Type: ${inquiryType}
+                    Message: ${message}
+            `,
+            html: `
+                    <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+                        <h2>New Contact Form Submission</h2>
+                        <p><strong>Name:</strong> ${name}</p>
+                        <p><strong>Email:</strong> ${email}</p>
+                        <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
+                        <p><strong>Inquiry Type:</strong> ${inquiryType}</p>
+                        <p><strong>Message:</strong></p>
+                        <div style="background-color: #f5f5f5; padding: 15px; border-radius: 5px;">
+                            ${message.replace(/\n/g, '<br>')}
+                        </div>
+                    </div>
+            `
         };
 
+        // Send email
         await transporter.sendMail(mailOptions);
-        res.json({ success: true, message: 'Email sent successfully!' });
+
+        // Return success response
+        res.status(200).json({ success: true, message: 'Email sent successfully!' });
     } catch (error) {
         console.error('Email sending error:', error);
         res.status(500).json({ success: false, error: 'Failed to send email.' });
     }
 }
+
 

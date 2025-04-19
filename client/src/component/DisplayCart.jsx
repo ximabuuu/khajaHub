@@ -39,7 +39,7 @@ const DisplayCart = ({ close }) => {
   const showLateNightNotice = new Date().getHours() >= 23;
 
   return (
-    <section className='bg-neutral-900/50 fixed top-0 right-0 left-0 bottom-0 z-50'>
+    <section className='bg-neutral-900/50 fixed top-0 right-0 left-0 shadow-2xl bottom-0 z-50'>
       <div className='bg-white w-full max-w-sm min-h-screen max-h-screen ml-auto'>
         <div className='bg-white flex justify-between items-center p-4 shadow-md '>
           <h2 className='font-semibold text-lg '>Cart</h2>
