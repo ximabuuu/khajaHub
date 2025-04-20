@@ -11,9 +11,5 @@ export default defineConfig({
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
   },
-  build: {
-    rollupOptions: {
-      external: ["mongoose"],
-    }
-  }
+  
 })
