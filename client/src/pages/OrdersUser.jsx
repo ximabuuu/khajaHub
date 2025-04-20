@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import AxiosToastError from '../utils/AxiosToastError'
 import Axios from '../utils/axios'
 import SummaryApi from '../config/SummaryApi'
-import { fetchAllCashOnDeliv } from '../../../server/controllers/order.controller'
 
 const OrdersUser = () => {
 
