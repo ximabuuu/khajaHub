@@ -74,6 +74,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ["ADMIN", "USER", "RIDER"],
         default: "USER"
+    },
+    location: {
+        latitude: Number,
+        longitude: Number
     }
 }, {
     timestamps: true

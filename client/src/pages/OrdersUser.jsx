@@ -45,37 +45,54 @@ const OrdersUser = () => {
 
     const updateOrderStatus = async (orderId, newStatus) => {
         try {
-            const response = await Axios({
-                ...SummaryApi.updateOrderStatus(orderId),
-                data: { orderStatus: newStatus },
-            });
+            navigator.geolocation.getCurrentPosition(async (position) => {
+                const { latitude, longitude } = position.coords;
 
-            if (response?.data) {
-                setCash((prevOrders) =>
-                    prevOrders.map((order) =>
-                        order._id === orderId ? { ...order, orderStatus: newStatus } : order
-                    )
-                );
-            }
+                const response = await Axios({
+                    ...SummaryApi.updateOrderStatus(orderId),
+                    data: {
+                        orderStatus: newStatus,
+                        latitude,
+                        longitude
+                    },
+                });
+
+                if (response?.data) {
+                    setCash((prevOrders) =>
+                        prevOrders.map((order) =>
+                            order._id === orderId ? { ...order, orderStatus: newStatus } : order
+                        )
+                    );
+                }
+            });
         } catch (error) {
             console.error("Error updating order status:", error);
         }
     };
 
+
     const updateEsewaStatus = async (orderId, newStatus) => {
         try {
-            const response = await Axios({
-                ...SummaryApi.updateEsewaStatus(orderId),
-                data: { orderStatus: newStatus },
-            });
+            navigator.geolocation.getCurrentPosition(async (position) => {
+                const { latitude, longitude } = position.coords;
 
-            if (response?.data) {
-                setData((prevOrders) =>
-                    prevOrders.map((order) =>
-                        order._id === orderId ? { ...order, orderStatus: newStatus } : order
-                    )
-                );
-            }
+                const response = await Axios({
+                    ...SummaryApi.updateEsewaStatus(orderId),
+                    data: {
+                        orderStatus: newStatus,
+                        latitude,
+                        longitude
+                    },
+                });
+
+                if (response?.data) {
+                    setData((prevOrders) =>
+                        prevOrders.map((order) =>
+                            order._id === orderId ? { ...order, orderStatus: newStatus } : order
+                        )
+                    );
+                }
+            });
         } catch (error) {
             console.error("Error updating order status:", error);
         }

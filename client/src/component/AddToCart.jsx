@@ -6,11 +6,9 @@ import toast from 'react-hot-toast'
 import AxiosToastError from '../utils/AxiosToastError'
 import LoadingAdd from './LoadingAdd'
 import { useSelector } from 'react-redux'
-import { FiPlus } from "react-icons/fi";
-import { FiMinus } from "react-icons/fi";
+import { FiPlus, FiMinus } from "react-icons/fi";
 
-const AddToCart = ({ data, selectedRestaurant }) => {
-
+const AddToCart = ({ productId, selectedRestaurant }) => {
     const [loading, setLoading] = useState(false)
     const { fetchCartItem, updateCartItem, deleteCartItem } = useGlobalContext()
     const cartItem = useSelector(state => state.cartItem.cart)
@@ -26,14 +24,14 @@ const AddToCart = ({ data, selectedRestaurant }) => {
             toast.error("Please select a restaurant")
             return
         }
+
         setLoading(true)
 
         try {
-            setLoading(true)
             const response = await Axios({
                 ...SummaryApi.addtocart,
                 data: {
-                    productId: data?._id,
+                    productId: productId,
                     restaurant: selectedRestaurant?.name
                 }
             })
@@ -55,18 +53,17 @@ const AddToCart = ({ data, selectedRestaurant }) => {
     }
 
     useEffect(() => {
-        const checkingItem = cartItem.some(item => item.productId._id === data._id)
+        const checkingItem = cartItem.some(item => item.productId._id === productId)
         setIsThere(checkingItem)
 
-        const cartQty = cartItem.find(item => item.productId._id === data._id)
+        const cartQty = cartItem.find(item => item.productId._id === productId)
         setQty(cartQty?.quantity)
         setCartItemsDetails(cartQty)
-    }, [data, cartItem])
+    }, [productId, cartItem])
 
     const increaseQty = (e) => {
         e.preventDefault()
         e.stopPropagation()
-
         updateCartItem(cartItemDetails?._id, qty + 1)
     }
 
@@ -84,20 +81,17 @@ const AddToCart = ({ data, selectedRestaurant }) => {
         <div className='w-full max-w-[150px]'>
             {
                 isThere ? (
-                    <div className='flex '>
+                    <div className='flex'>
                         <button onClick={decreaseQty} className='bg-red-800 hover:bg-red-600 text-white px-1 w-full rounded flex-1 flex items-center justify-center'><FiMinus /></button>
                         <p className='flex-1 w-full font-semibold px-1'>{qty}</p>
                         <button onClick={increaseQty} className='bg-red-800 hover:bg-red-600 text-white px-1 w-full rounded flex-1 flex items-center justify-center'><FiPlus /></button>
                     </div>
                 ) : (
-                    <button onClick={handleAdd} className='bg-red-800 hover:bg-red-600 text-white lg:px-4 py-1 px-2  rounded'>
-                        {
-                            loading ? <LoadingAdd /> : "Add"
-                        }
+                    <button onClick={handleAdd} className='bg-red-800 hover:bg-red-600 text-white lg:px-4 py-1 px-2 rounded'>
+                        {loading ? <LoadingAdd /> : "Add"}
                     </button>
                 )
             }
-
         </div>
     )
 }

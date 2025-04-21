@@ -3,7 +3,8 @@ import mongoose from "mongoose"
 const transactionSchema = new mongoose.Schema({
     product_id: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     amount: {
         type: Number,

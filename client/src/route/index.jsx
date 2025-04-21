@@ -33,6 +33,7 @@ import PopUp from '../pages/PopUp.jsx'
 import RiderPerm from '../layouts/RiderPerm.jsx'
 import OrdersUser from '../pages/OrdersUser.jsx'
 import RestaurantMenu from '../component/RestaurantMenu.jsx'
+import Menu from '../pages/Menu.jsx'
 
 const router = createBrowserRouter([
     {
@@ -174,6 +175,10 @@ const router = createBrowserRouter([
             {
                 path : "restaurant",
                 element : <RestaurantMenu/>
+            },
+            {
+                path : "menu",
+                element : <Menu/>
             }
         ]
     }

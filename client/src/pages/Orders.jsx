@@ -4,8 +4,9 @@ import Axios from '../utils/axios';
 import SummaryApi from '../config/SummaryApi';
 
 const Orders = () => {
-  const [orders, setOrders] = useState([]);
-  const [transaction, setTransaction] = useState([]);
+  const [orders, setOrders] = useState([])
+  const [transaction, setTransaction] = useState([])
+  const [showMap, setShowMap] = useState({});
 
   const handleUserOrder = async () => {
     try {
@@ -23,7 +24,15 @@ const Orders = () => {
     } catch (error) {
       AxiosToastError(error);
     }
+  }
+
+  const toggleMap = (orderId) => {
+    setShowMap((prev) => ({
+      ...prev,
+      [orderId]: !prev[orderId],
+    }));
   };
+
 
   useEffect(() => {
     handleUserOrder();
@@ -58,11 +67,34 @@ const Orders = () => {
               <p>Order Status: <strong>{order.orderStatus}</strong></p>
 
               {/* Show Rider Information if Order is Accepted */}
-              {order.orderStatus !== "Pending" && order.rider && (
+              {order.orderStatus !== "Pending" && order.orderStatus !== "Delivered" && order.rider && (
                 <div className="mt-2 p-2 bg-blue-100 rounded">
                   <p className="font-semibold">Rider Information:</p>
                   <p>Name: {order.rider.name}</p>
                   <p>Mobile: {order.rider.mobile}</p>
+
+                  {/* Track Order Button */}
+                  <button
+                    onClick={() => toggleMap(order._id)}
+                    className="mt-2 px-4 py-1 bg-[#783232] text-white rounded hover:bg-red-800"
+                  >
+                    {showMap[order._id] ? "Hide Map" : "Track Order"}
+                  </button>
+
+                  {/* Rider live location map shown only if button clicked */}
+                  {showMap[order._id] && order.rider.location && (
+                    <div className="mt-2">
+                      <p className="font-semibold">Live Location:</p>
+                      <iframe
+                        width="100%"
+                        height="200"
+                        frameBorder="0"
+                        style={{ border: 0 }}
+                        src={`https://maps.google.com/maps?q=${order.rider.location.latitude},${order.rider.location.longitude}&z=15&output=embed`}
+                        allowFullScreen
+                      ></iframe>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -93,11 +125,34 @@ const Orders = () => {
               </div>
               <p>Order Status: <strong>{transaction.orderStatus}</strong></p>
               {/* Show Rider Information if Order is Accepted */}
-              {transaction.orderStatus !== "Pending" && transaction.rider && (
+              {transaction.orderStatus !== "Pending" && transaction.orderStatus !== "Delivered" && transaction.rider && (
                 <div className="mt-2 p-2 bg-blue-100 rounded">
                   <p className="font-semibold">Rider Information:</p>
                   <p>Name: {transaction.rider.name}</p>
                   <p>Mobile: {transaction.rider.mobile}</p>
+                  {/* Track Order Button */}
+                  <button
+                    onClick={() => toggleMap(transaction._id)}
+                    className="mt-2 px-4 py-1 bg-[#783232] text-white rounded hover:bg-red-800"
+                  >
+                    {showMap[transaction._id] ? "Hide Map" : "Track Order"}
+                  </button>
+
+                  {/* Rider live location map shown only if button clicked */}
+                  {showMap[transaction._id] && transaction.rider.location && (
+                    <div className="mt-2">
+                      <p className="font-semibold">Live Location:</p>
+                      <iframe
+                        width="100%"
+                        height="200"
+                        frameBorder="0"
+                        style={{ border: 0 }}
+                        src={`https://maps.google.com/maps?q=${transaction.rider.location.latitude},${transaction.rider.location.longitude}&z=15&output=embed`}
+                        allowFullScreen
+                      ></iframe>
+                    </div>
+                  )}
+
                 </div>
               )}
             </div>

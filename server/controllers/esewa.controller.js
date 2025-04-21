@@ -9,9 +9,9 @@ const EsewaInitiatePayment = async (req, res) => {
   try {
     const reqPayment = await EsewaPaymentGateway(
       amount, 0, 0, 0, productId, process.env.MERCHANT_ID, process.env.SECRET, process.env.SUCCESS_URL, process.env.FAILURE_URL, process.env.ESEWAPAYMENT_URL, undefined, undefined)
-    if (!reqPayment) {
-      return res.status(400).json("error sending data")
-
+    if (!reqPayment || reqPayment.status !== 200) {
+      console.error("Esewa Payment Error:", reqPayment?.data || reqPayment);
+      return res.status(400).json("Esewa payment failed.");
     }
 
     const products = list_items.map(el => ({
@@ -113,7 +113,7 @@ export const getUserTransaction = async (req, res) => {
     const userOrders = await TransactionModel.find({ userId: userId })
       .populate("userId")
       .populate("delivery_address")
-      .populate("rider", 'name mobile')
+      .populate("rider", 'name mobile location')
       .sort({ createdAt: -1 })
 
     return res.json({
@@ -134,8 +134,8 @@ export const getUserTransaction = async (req, res) => {
 
 export const updateEsewaStatus = async (req, res) => {
   const { orderId } = req.params;
-  const { orderStatus } = req.body;
-  const riderId = req.userId; // Extract rider ID from authenticated user
+  const { orderStatus, latitude, longitude } = req.body;
+  const riderId = req.userId;
 
   try {
     // Fetch the user details
@@ -144,12 +144,20 @@ export const updateEsewaStatus = async (req, res) => {
     if (!rider || rider.role !== "RIDER") {
       return res.status(403).json({ message: "Only riders can accept orders" });
     }
+    if (latitude && longitude) {
+      await UserModel.findByIdAndUpdate(riderId, {
+        location: {
+          latitude,
+          longitude
+        }
+      });
+    }
 
     const updatedOrder = await TransactionModel.findByIdAndUpdate(
       orderId,
-      { orderStatus, rider: riderId }, // Assign Rider
+      { orderStatus, rider: riderId },
       { new: true }
-    ).populate("rider", "name mobile"); // Populate Rider Details
+    ).populate("rider", "name mobile location");
 
     if (!updatedOrder) {
       return res.status(404).json({ message: "Order not found" });

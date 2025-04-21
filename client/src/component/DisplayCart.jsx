@@ -70,7 +70,7 @@ const DisplayCart = ({ close }) => {
                               <p className='text-sm font-semibold'>Rs. {DiscountedPrice(i?.productId?.price, i?.productId?.discount)}</p>
                             </div>
                             <div>
-                              <AddToCart data={i?.productId} />
+                              <AddToCart productId={i?.productId?._id} selectedRestaurant={{ name: i?.restaurant }} />
                             </div>
                           </div>
                         )

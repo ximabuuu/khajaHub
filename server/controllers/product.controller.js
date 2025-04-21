@@ -184,7 +184,7 @@ export const getProductByRestaurant = async (req, res) => {
             return res.status(400).json({ message: 'restaurantId is required' })
         }
 
-        const products = await ProductModel.find({ restaurant: restaurantId }).populate('restaurant')
+        const products = await ProductModel.find({ restaurant: restaurantId }).populate('restaurant').populate('category').populate('subCategory')
 
         res.json({ success: true, data: products })
     } catch (error) {
@@ -314,5 +314,39 @@ export const searchProduct = async (req, res) => {
             error: true,
             success: false
         })
+    }
+}
+
+export const getFilteredProducts = async (req, res) => {
+    try {
+        const { category, subCategory, sortBy = 'createdAt', order = 'desc', limit = 20, page = 1 } = req.query;
+        const filter = {};
+
+        if (category) filter.category = category;
+        if (subCategory) filter.subCategory = subCategory;
+
+        const sortOptions = { [sortBy]: order === 'asc' ? 1 : -1 };
+        const skip = (page - 1) * parseInt(limit);
+
+        const [products, total] = await Promise.all([
+            ProductModel.find(filter)
+                .populate('category')
+                .populate('subCategory')
+                .sort(sortOptions)
+                .skip(skip)
+                .limit(parseInt(limit)),
+            ProductModel.countDocuments(filter)
+        ]);
+
+        res.json({
+            success: true,
+            data: products,
+            total,
+            currentPage: parseInt(page),
+            totalPages: Math.ceil(total / parseInt(limit))
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error', success: false });
     }
 }

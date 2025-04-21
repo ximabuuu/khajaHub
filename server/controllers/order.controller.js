@@ -92,21 +92,33 @@ export const fetchAllCashOnDeliv = async (req, res) => {
 
 export const updateOrderStatus = async (req, res) => {
     const { orderId } = req.params
-    const { orderStatus } = req.body
+    const { orderStatus, latitude, longitude } = req.body
     const riderId = req.userId
 
     try {
-        const rider = await UserModel.findById(riderId);
+        const rider = await UserModel.findById(riderId)
 
         if (!rider || rider.role !== "RIDER") {
             return res.status(403).json({ message: "Only riders can accept orders" })
         }
 
+        if (latitude && longitude) {
+            await UserModel.findByIdAndUpdate(riderId, {
+                location: {
+                    latitude,
+                    longitude
+                }
+            });
+        }
+
         const updatedOrder = await OrderModel.findByIdAndUpdate(
             orderId,
-            { orderStatus, rider: riderId },
+            {
+                orderStatus,
+                rider: riderId
+            },
             { new: true }
-        ).populate("rider", "name mobile")
+        ).populate("rider", "name mobile location")
 
         if (!updatedOrder) {
             return res.status(404).json({ message: "Order not found" })
@@ -117,7 +129,7 @@ export const updateOrderStatus = async (req, res) => {
             success: true,
             error: false,
             data: updatedOrder
-        });
+        })
 
     } catch (error) {
         res.status(500).json({
@@ -135,7 +147,7 @@ export const getUserOrders = async (req, res) => {
         const userOrders = await OrderModel.find({ userId: userId })
             .populate("userId")
             .populate("delivery_address")
-            .populate("rider", "name mobile role")
+            .populate("rider", "name mobile role location")
             .sort({ createdAt: -1 })
 
         return res.json({
