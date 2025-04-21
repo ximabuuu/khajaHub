@@ -63,7 +63,7 @@ const ProductByCategory = ({ id, name }) => {
             sub.category?.some(categ => categ._id === id)
         );
 
-        if (!subCategory) return '/'; // Fallback to home or a valid route
+        if (!subCategory) return '/'; 
 
         return `/${UrlConverter(name)}-${id}/${UrlConverter(subCategory.name)}-${subCategory._id}`;
     };
