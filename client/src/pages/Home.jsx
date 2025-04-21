@@ -12,6 +12,7 @@ import { Helmet } from 'react-helmet'
 import { motion } from 'framer-motion'
 import { IoMdTrendingUp } from "react-icons/io"
 import { FaClock } from "react-icons/fa"
+import '../App.css'
 
 const Home = () => {
   const loadingCategory = useSelector(state => state.product.loadingCategory)

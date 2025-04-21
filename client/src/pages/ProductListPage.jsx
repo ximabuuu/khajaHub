@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { ChevronRight, Filter, Grid, List, Search, X } from "lucide-react"
-
+import '../App.css'
 import Axios from "../utils/axios"
 import SummaryApi from "../config/SummaryApi.js"
 import AxiosToastError from "../utils/AxiosToastError"
@@ -83,6 +83,20 @@ const ProductListPage = () => {
   // Filter products based on search query
   const filteredProducts = data.filter((product) => product.name.toLowerCase().includes(searchQuery.toLowerCase()))
 
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
+    switch (sortBy) {
+      case "price-low":
+        return a.price - b.price
+      case "price-high":
+        return b.price - a.price
+      case "popular":
+        return b.averageRating - a.averageRating
+      case "newest":
+      default:
+        return new Date(b.createdAt) - new Date(a.createdAt)
+    }
+  })
+
   // Load more products
   const loadMore = () => {
     if (data.length < totalCount && !loading) {
@@ -96,7 +110,7 @@ const ProductListPage = () => {
   }
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-gray-50 min-h-screen max-h-[100vh] overflow-auto">
       {/* Breadcrumb */}
       <div className="bg-white shadow-sm">
         <div className="container mx-auto px-4 py-3">
@@ -159,8 +173,8 @@ const ProductListPage = () => {
                         to={link}
                         key={scate._id + index + "prod"}
                         className={`flex items-center gap-3 p-3 rounded-lg transition-all ${subCategoryId === scate._id
-                            ? "bg-orange-100 text-orange-800 font-medium shadow-sm"
-                            : "bg-white hover:bg-gray-50 text-gray-700"
+                          ? "bg-orange-100 text-orange-800 font-medium shadow-sm"
+                          : "bg-white hover:bg-gray-50 text-gray-700"
                           }`}
                         onClick={() => setSidebarOpen(false)}
                       >
@@ -281,14 +295,14 @@ const ProductListPage = () => {
                 <div
                   className={
                     viewMode === "grid"
-                      ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+                      ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center"
                       : "space-y-4"
                   }
                 >
-                  {filteredProducts.map((prod, index) => (
+                  {sortedProducts.map((prod, index) => (
                     <div
                       key={prod._id + index + "prod"}
-                      className={viewMode === "list" ? "bg-white rounded-xl shadow-sm" : ""}
+                      className={viewMode === "list" ? "bg-white rounded-xl shadow-sm " : ""}
                     >
                       <ProductCard data={prod} />
                     </div>

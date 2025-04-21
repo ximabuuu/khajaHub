@@ -1,5 +1,4 @@
-"use client"
-
+import '../App.css'
 import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { Search, MapPin, MenuIcon, X, Clock, Star, ShoppingBag } from "lucide-react"
@@ -17,7 +16,8 @@ const RestaurantMenu = () => {
     const [menu, setMenu] = useState([])
     const [loading, setLoading] = useState(false)
     const [sidebarOpen, setSidebarOpen] = useState(false)
-    const [searchQuery, setSearchQuery] = useState("")
+    const [restaurantSearchQuery, setRestaurantSearchQuery] = useState("")
+    const [menuSearchQuery, setMenuSearchQuery] = useState("")
     const [activeCategory, setActiveCategory] = useState("all")
 
     // Extract categories from menu items
@@ -26,7 +26,7 @@ const RestaurantMenu = () => {
 
     // Filter menu items by search query and category
     const filteredMenu = menu.filter((item) => {
-        const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase())
+        const matchesSearch = item.name.toLowerCase().includes(menuSearchQuery.toLowerCase())
         const matchesCategory = activeCategory === "all" || item.category?.[0]?.name === activeCategory
         return matchesSearch && matchesCategory
     })
@@ -132,8 +132,8 @@ const RestaurantMenu = () => {
                                         type="text"
                                         placeholder="Search restaurants..."
                                         className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-800"
-                                        onChange={(e) => setSearchQuery(e.target.value)}
-                                        value={searchQuery}
+                                        onChange={(e) => setRestaurantSearchQuery(e.target.value)}
+                                        value={restaurantSearchQuery}
                                     />
                                 </div>
                             </div>
@@ -141,7 +141,7 @@ const RestaurantMenu = () => {
                             <div className="p-4">
                                 <div className="flex flex-col gap-2">
                                     {restaurants
-                                        .filter((r) => r.name.toLowerCase().includes(searchQuery.toLowerCase()))
+                                        .filter((r) => r.name.toLowerCase().includes(restaurantSearchQuery.toLowerCase()))
                                         .map((restro) => (
                                             <div
                                                 key={restro._id}
@@ -227,8 +227,8 @@ const RestaurantMenu = () => {
                                     type="text"
                                     placeholder="Search menu items..."
                                     className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-800 bg-white"
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    value={searchQuery}
+                                    onChange={(e) => setMenuSearchQuery(e.target.value)}
+                                    value={menuSearchQuery}
                                 />
                             </div>
 
@@ -289,7 +289,7 @@ const RestaurantMenu = () => {
                                                         )}
                                                     </div>
                                                     <div>
-                                                        <AddToCart productId={item._id} selectedRestaurant={selectedRestaurant}/>
+                                                        <AddToCart productId={item._id} selectedRestaurant={selectedRestaurant} />
                                                     </div>
                                                 </div>
                                             </div>
@@ -304,12 +304,12 @@ const RestaurantMenu = () => {
                                         </div>
                                         <h3 className="text-xl font-semibold text-gray-800 mb-2">No items found</h3>
                                         <p className="text-gray-500 max-w-md">
-                                            {searchQuery
-                                                ? `We couldn't find any items matching "${searchQuery}"`
+                                            {menuSearchQuery
+                                                ? `We couldn't find any items matching "${menuSearchQuery}"`
                                                 : "This restaurant doesn't have any items available right now."}
                                         </p>
-                                        {searchQuery && (
-                                            <button onClick={() => setSearchQuery("")} className="mt-4 text-red-800 hover:text-red-600">
+                                        {menuSearchQuery && (
+                                            <button onClick={() => setMenuSearchQuery("")} className="mt-4 text-red-800 hover:text-red-600">
                                                 Clear search
                                             </button>
                                         )}

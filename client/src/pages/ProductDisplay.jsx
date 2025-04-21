@@ -275,7 +275,7 @@ const ProductDisplay = () => {
 
               {/* Add to Cart Button */}
               <div className="mb-8">
-                <AddToCart data={data} selectedRestaurant={selectedRestaurant} />
+                <AddToCart productId={data} selectedRestaurant={selectedRestaurant} />
               </div>
 
               {/* Additional Details */}

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { FaFacebook } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
-import logo from '../assets/logo.png'
+import logo from '../assets/logoo.png'
 
 const Footer = () => {
   return (
@@ -11,8 +11,7 @@ const Footer = () => {
       <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
         <div className="flex flex-col items-center">
           <div className='flex items-center'>
-            <Link to={"/"}><img src={logo} alt="khaja" width={50} /></Link>
-            <h2 className="text-2xl font-bold">Khaja</h2>
+            <Link to={"/"}><img src={logo} alt="khaja" width={150} /></Link>
           </div>
           <p className="mt-2 text-gray-900">Satisfy Your Cravings, Anytime, Anywhere!</p>
         </div>

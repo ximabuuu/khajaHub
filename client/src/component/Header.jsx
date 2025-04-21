@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import logo from '../assets/logo.png'
+import logo from '../assets/logoo.png'
 import Search from './Search'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { FaUserCircle } from "react-icons/fa";
@@ -55,8 +55,8 @@ const Header = () => {
                         <div className='container mx-auto flex items-center px-6 justify-between'>
                             <div className='flex items-center'>
                                 <Link to={"/"} className='flex justify-center items-center'>
-                                    <img src={logo} alt="Logo" width={95} className='hidden lg:block' />
-                                    <img src={logo} alt="Logo" width={65} className='lg:hidden' />
+                                    <img src={logo} alt="Logo" width={150} className='hidden lg:block' />
+                                    <img src={logo} alt="Logo" width={85} className='lg:hidden' />
                                 </Link>
                                 <nav className='hidden md:flex ml-15 space-x-8 text-lg font-semibold'>
                                     <Link className='hover:text-red-800' to={'/'}>Home</Link>
