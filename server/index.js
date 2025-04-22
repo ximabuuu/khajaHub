@@ -22,6 +22,7 @@ import PopUpRouter from './route/popup.route.js'
 
 const app = express()
 const allowedOrigins = [
+    'http://localhost:5173',
     'https://khajahub.vercel.app',
     'https://www.shresthashuvam.com.np'
 ];

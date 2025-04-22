@@ -6,12 +6,12 @@ if(!process.env.RESEND_API){
     console.log("Provide RESEN_API inside .env file")
 }
 
-const resend = new Resend('re_grug5h3b_Y28qDkUSe28e7HsGPdgHwm8X');
+const resend = new Resend(process.env.RESEND_API);
 
 const sendEmail = async({ sendTo, subject, html })=>{
     try {
         const { data, error } = await resend.emails.send({
-            from: 'Khaja <onboarding@resend.dev>',
+            from: 'Khaja',
             to: sendTo,
             subject: subject,
             html: html,
