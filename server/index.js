@@ -14,50 +14,62 @@ import restaurantRouter from './route/restaurant.route.js'
 import productRouter from './route/product.route.js'
 import cartRouter from './route/cart.route.js'
 import reviewRouter from './route/review.route.js'
-import { EsewaInitiatePayment,paymentStatus } from './controllers/esewa.controller.js'
+import { EsewaInitiatePayment, paymentStatus } from './controllers/esewa.controller.js'
 import esewaRouter from './route/esewa.route.js'
 import AddressRouter from './route/address.route.js'
 import OrderRouter from './route/order.route.js'
 import PopUpRouter from './route/popup.route.js'
 
 const app = express()
+const allowedOrigins = [
+    'https://khajahub.vercel.app',
+    'https://www.shresthashuvam.com.np'
+];
+
 app.use(cors({
-    credentials : true,
-    origin : process.env.FRONTEND_URL
-}))
+    credentials: true,
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    }
+}));
+
 
 app.use(express.json())
 app.use(cookieParser())
 app.use(morgan("dev"))
 app.use(helmet({
-    crossOriginResourcePolicy : false
+    crossOriginResourcePolicy: false
 }))
 
 const PORT = process.env.PORT || 8080;
 
-app.get("/",(request,response)=>{
+app.get("/", (request, response) => {
     response.json({
-        message : "Server is running"
+        message: "Server is running"
     })
 })
 
-app.use('/api/user',userRouter)
-app.use('/api/category',categoryRouter)
-app.use('/api/file',uploadRouter)
-app.use('/api/subcategory',subCategoryRouter)
-app.use('/api/restaurant',restaurantRouter)
-app.use('/api/product',productRouter)
-app.use('/api/cart',cartRouter)
-app.use('/api/review',reviewRouter)
+app.use('/api/user', userRouter)
+app.use('/api/category', categoryRouter)
+app.use('/api/file', uploadRouter)
+app.use('/api/subcategory', subCategoryRouter)
+app.use('/api/restaurant', restaurantRouter)
+app.use('/api/product', productRouter)
+app.use('/api/cart', cartRouter)
+app.use('/api/review', reviewRouter)
 app.use("/api/esewa", esewaRouter)
-app.use('/api/address',AddressRouter)
-app.use('/api/order',OrderRouter)
-app.use('/api/popup',PopUpRouter)
+app.use('/api/address', AddressRouter)
+app.use('/api/order', OrderRouter)
+app.use('/api/popup', PopUpRouter)
 
-connectDB().then(()=>{
-    app.listen(PORT,()=>{
-        console.log("Server is running",PORT)
-    }) 
+connectDB().then(() => {
+    app.listen(PORT, () => {
+        console.log("Server is running", PORT)
+    })
 })
 
 
