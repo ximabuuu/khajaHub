@@ -183,7 +183,7 @@ const RestaurantMenu = () => {
                                             <MapPin size={32} className="text-red-800" />
                                         </div>
                                         <div className="flex-1">
-                                            <h1 className="text-2xl font-bold text-gray-800 mb-1">{selectedRestaurant.name}</h1>
+                                            <h1 className="text-2xl font-bold text-gray-800 mb-1">{selectedRestaurant.name} <span className='text-sm '> - {selectedRestaurant.address}</span></h1>
                                             {selectedRestaurant.cuisine && <p className="text-gray-500 mb-2">{selectedRestaurant.cuisine}</p>}
                                             <div className="flex flex-wrap gap-4 text-sm">
                                                 <div className="flex items-center gap-1">

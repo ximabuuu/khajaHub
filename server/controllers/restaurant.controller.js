@@ -4,8 +4,8 @@ import RestaurantModel from "../models/restaurant.model.js"
 //adding restro
 export async function addRestaurant(req,res) {
     try {
-        const {name} = req.body
-        const newRestaurant = new RestaurantModel({name})
+        const {name,address} = req.body
+        const newRestaurant = new RestaurantModel({name,address})
         await newRestaurant.save()
         res.status(201).json({
             success : true,
@@ -39,12 +39,12 @@ export const getRestaurantController =async (req,res)=>{
 
 export const updateRestaurantController = async (req,res) => {
     try {
-        const {_id,name} = req.body
+        const {_id,name,address} = req.body
 
         const update = await RestaurantModel.updateOne({
             _id : _id
         },{
-            name
+            name,address
         })
 
         return res.json({

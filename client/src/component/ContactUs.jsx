@@ -102,16 +102,28 @@ const ContactUs = () => {
     return (
         <div className="min-h-screen bg-gray-50">
             {/* Hero Section */}
-            <section className="bg-gradient-to-r from-orange-50 to-amber-50 py-16 md:py-24">
-                <div className="container mx-auto px-4 text-center">
+            <div className="bg-red-800 text-white py-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+                <div className="absolute inset-0 opacity-10">
+                    <svg className="h-full w-full" viewBox="0 0 800 800">
+                        <path
+                            d="M769 229L1037 260.9M927 880L731 737 520 660 309 538 40 599 295 764 126.5 879.5 40 599-197 493 102 382-31 229 126.5 79.5-69-63"
+                            stroke="currentColor"
+                            strokeWidth="100"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            fill="none"
+                        />
+                    </svg>
+                </div>
+                <div className="container mx-auto max-w-4xl relative z-10">
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-                        <h1 className="text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">Contact Us</h1>
-                        <p className="mx-auto mt-4 max-w-2xl text-lg text-gray-600">
-                            We'd love to hear from you. Get in touch with our team for any questions, feedback, or support.
+                        <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center">Contact Us</h1>
+                        <p className="text-lg md:text-xl text-red-100 max-w-3xl mx-auto text-center">
+                        We'd love to hear from you. Get in touch with our team for any questions, feedback, or support.
                         </p>
                     </motion.div>
                 </div>
-            </section>
+            </div>
 
             {/* Contact Information */}
             <section className="py-16">

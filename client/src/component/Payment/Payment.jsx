@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { v4 as uuidv4 } from "uuid"; 
+import { v4 as uuidv4 } from "uuid";
 import Axios from "../../utils/axios";
 import SummaryApi from "../../config/SummaryApi.js";
 import toast from "react-hot-toast";
@@ -26,7 +26,7 @@ const Payment = () => {
     const handlePayment = async (e) => {
         e.preventDefault();
 
-        const uniqueProductId = uuidv4(); 
+        const uniqueProductId = uuidv4();
 
         const requestData = {
             amount: amount,
@@ -58,33 +58,47 @@ const Payment = () => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-[60vh] bg-gray-100">
-            <div className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md">
-                <div className="flex items-center justify-center gap-4 mb-6">
-                    <img src={esewa} alt="esewa" width={50} className="object-contain" />
-                    <h1 className="text-2xl font-semibold text-center text-black">
-                        Pay With Esewa
+        <div className="flex flex-col items-center justify-center min-h-[60vh] bg-gradient-to-b from-gray-50 to-gray-100 p-6">
+            <div className="bg-white shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] rounded-3xl p-8 w-full max-w-md border border-gray-100">
+                <div className="relative mb-8">
+                    <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-green-400 to-green-600 rounded-full shadow-lg">
+                        <img src={esewa || "/placeholder.svg"} alt="esewa" width={50} height={50} className="object-contain" />
+                    </div>
+                    <h1 className="text-2xl font-bold text-center text-gray-800 mt-8 pt-2">
+                        Pay With <span className="text-green-500">eSewa</span>
                     </h1>
+                    <div className="h-1 w-20 bg-gradient-to-r from-green-400 to-green-600 mx-auto mt-3 rounded-full"></div>
                 </div>
 
-                <form onSubmit={handlePayment} className="space-y-4">
+                <form onSubmit={handlePayment} className="space-y-6">
                     <div className="flex flex-col">
-                        <label className="text-gray-700 font-medium mb-1">Amount</label>
-                        <input
-                            type="number"
-                            value={amount}
-                            readOnly
-                            className="w-full px-4 py-2 text-gray-800 bg-gray-100 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                        />
+                        <label className="text-gray-700 font-medium mb-2 text-sm uppercase tracking-wide">Amount (NPR)</label>
+                        <div className="relative">
+                            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <span className="text-gray-500 font-medium">Rs.</span>
+                            </div>
+                            <input
+                                type="number"
+                                value={amount}
+                                readOnly
+                                className="w-full pl-12 pr-4 py-3.5 text-gray-800 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-lg font-medium shadow-sm"
+                            />
+                        </div>
                     </div>
 
-                    <button
-                        type="submit"
-                        className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
-                    >
-                        Pay
-                    </button>
+                    <div className="pt-2">
+                        <button
+                            type="submit"
+                            className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-3.5 px-4 rounded-xl transition duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+                        >
+                            Pay Now
+                        </button>
+                    </div>
                 </form>
+
+                <div className="mt-6 text-center">
+                    <p className="text-xs text-gray-500">Secure payment processed by eSewa. Your information is protected.</p>
+                </div>
             </div>
         </div>
     );

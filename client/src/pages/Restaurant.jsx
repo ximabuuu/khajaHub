@@ -18,7 +18,8 @@ const Restaurant = () => {
   const [openAdd,setOpenAdd] = useState(false)
   const [openEdit,setOpenEdit] = useState(false)
   const [editData,setEditData] = useState({
-    name : ""
+    name : "",
+    address : ""
   })
   const [openDelete,setOpenDelete] = useState(false)
   const [deleteCat,setDeleteCat] = useState({
@@ -87,8 +88,9 @@ const handleDeleteCat = async ()=>{
           restroData.map((restro,index)=>{
             return(
               <div key={restro._id} className='flex items-center justify-between p-2 border border-blue-200'>
-                <div>
+                <div className='flex items-center gap-2'>
                   <h1>{restro.name}</h1>
+                  <h1 className='text-slate-600 font-serif text-sm'>- {restro.address}</h1>
                 </div>
                 <div className='flex gap-2'>
                   <button onClick={()=>{
