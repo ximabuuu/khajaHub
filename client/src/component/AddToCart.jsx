@@ -82,9 +82,9 @@ const AddToCart = ({ productId, selectedRestaurant }) => {
             {
                 isThere ? (
                     <div className='flex'>
-                        <button onClick={decreaseQty} className='bg-red-800 hover:bg-red-600 text-white px-1 w-full rounded flex-1 flex items-center justify-center'><FiMinus /></button>
+                        <button onClick={decreaseQty} className='bg-red-800 hover:bg-red-600 text-white lg:px-1 w-full rounded flex-1 flex items-center justify-center'><FiMinus /></button>
                         <p className='flex-1 w-full font-semibold px-1'>{qty}</p>
-                        <button onClick={increaseQty} className='bg-red-800 hover:bg-red-600 text-white px-1 w-full rounded flex-1 flex items-center justify-center'><FiPlus /></button>
+                        <button onClick={increaseQty} className='bg-red-800 hover:bg-red-600 text-white lg:px-1 w-full rounded flex-1 flex items-center justify-center'><FiPlus /></button>
                     </div>
                 ) : (
                     <button onClick={handleAdd} className='bg-red-800 hover:bg-red-600 text-white lg:px-4 py-1 px-2 rounded'>

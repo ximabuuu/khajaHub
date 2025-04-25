@@ -175,7 +175,7 @@ const ProductDisplay = () => {
 
               {/* Image Thumbnails */}
               {data.image.length > 1 && (
-                <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+                <div className="flex gap-2 overflow-auto pb-2 scrollbar-hide">
                   {data.image.map((img, index) => (
                     <button
                       key={index}

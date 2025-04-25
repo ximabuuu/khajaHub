@@ -148,7 +148,7 @@ const Home = () => {
                   className="flex items-center gap-4 mt-6"
                 >
                   <div className="flex -space-x-2 overflow-hidden">
-                    {review.slice(0, 4).map((review, index) => (
+                    {review.slice(0,4).map((review, index) => (
                       <div
                         key={review?._id || index}
                         className="inline-block h-10 w-10 rounded-full border-2 border-white bg-gray-200 overflow-hidden shadow-md"
@@ -163,7 +163,7 @@ const Home = () => {
                   </div>
 
                   <div className="text-sm text-white">
-                    <span className="font-semibold text-amber-300">{totalReview}+</span> happy customers
+                    <span className="font-semibold text-amber-300">2000+</span> happy customers
                   </div>
                 </motion.div>
 

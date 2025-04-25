@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Axios from "../utils/axios"
 import { ChevronDown, Filter, ShoppingBag, SortAsc, SortDesc } from "lucide-react"
 
@@ -208,12 +208,14 @@ const Menu = () => {
                                 className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 group"
                             >
                                 <div className="relative overflow-hidden">
-                                    <img
-                                        src={product.image[0] || "https://via.placeholder.com/300x200"}
-                                        alt={product.name}
-                                        className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                    <Link to={`/product/${product._id}`}>
+                                        <img
+                                            src={product.image[0] || "https://via.placeholder.com/300x200"}
+                                            alt={product.name}
+                                            className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                    </Link>
                                 </div>
 
                                 <div className="p-4">

@@ -10,6 +10,8 @@ import { HiGiftTop } from "react-icons/hi2"
 import { FaTruck } from "react-icons/fa"
 import CEO from '../assets/CEO.jpg'
 import about from '../assets/about1.jpg'
+import manish from '../assets/manish.jpg'
+import { Link } from 'react-router-dom';
 
 const AboutUs = () => {
 
@@ -57,10 +59,10 @@ const AboutUs = () => {
             bio: "Priya oversees our day-to-day operations, including our delivery network and restaurant partnerships. She's an expert in logistics and supply chain management.",
         },
         {
-            name: "David Rodriguez",
+            name: "Manish Chaudhary",
             role: "Marketing Director",
-            image: "/placeholder.svg?height=300&width=300&text=David+R",
-            bio: "David leads our marketing efforts, helping us connect with food lovers everywhere. He brings creative strategies that have helped us grow rapidly.",
+            image: manish,
+            bio: "Manish leads our marketing efforts, helping us connect with food lovers everywhere. He brings creative strategies that have helped us grow rapidly.",
         },
     ]
 
@@ -307,6 +309,7 @@ const AboutUs = () => {
                                 <FaTruck size={30} />
                             </div>
                             <div className="relative">
+                                <div className="absolute right-0 top-10 hidden h-1 w-full bg-red-200 md:block"></div>
                                 <div className="inline-block rounded-full bg-red-700 px-4 py-2 text-sm font-semibold text-white">
                                     Step 4
                                 </div>
@@ -526,7 +529,7 @@ const AboutUs = () => {
                                 Whether you're a food lover, restaurant owner, or potential team member, we'd love to connect with you.
                             </p>
                             <div className="mt-8 flex flex-wrap justify-center gap-4">
-                                <button className="bg-red-700 hover:bg-red-600 px-2 py-1 rounded-full">Order Now</button>
+                                <Link to={'/menu'} className="bg-red-700 hover:bg-red-600 px-2 py-1 rounded-full text-white">Order Now</Link>
                                 <button className="outline px-2 py-1 rounded-full hover:bg-gray-200">Partner With Us</button>
                                 <button className="outline px-2 py-1 rounded-full hover:bg-gray-200">Join Our Team</button>
                             </div>

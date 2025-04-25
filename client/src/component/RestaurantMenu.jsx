@@ -268,7 +268,7 @@ const RestaurantMenu = () => {
                                                 )}
                                             </div>
                                             <div className="p-4">
-                                                <h3 className="font-semibold text-lg mb-1 text-gray-800">{item.name}</h3>
+                                                <h3 className="font-semibold text-lg mb-1 text-gray-800 line-clamp-1">{item.name}</h3>
                                                 <div className="flex items-center gap-1 mb-2">
                                                     <div className="text-xs px-2 py-1 bg-orange-100 text-orange-700 rounded-full">
                                                         {item.category[0].name}

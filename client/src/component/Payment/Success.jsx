@@ -14,7 +14,6 @@ const Success = () => {
   const location = useLocation();
   const { clearCart, clearCartSuccess } = useGlobalContext();
 
-  // Get token from URL
   const queryParams = new URLSearchParams(location.search);
   const token = queryParams.get("data");
 
@@ -41,7 +40,7 @@ const Success = () => {
       if (response.status === 200) {
         setIsSuccess(true);
         clearCart()
-        await clearCartSuccess() // Clear the cart after successful payment
+        await clearCartSuccess() 
       }
     } catch (error) {
       console.error("Error verifying payment:", error);
