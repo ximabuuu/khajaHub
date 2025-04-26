@@ -113,7 +113,7 @@ export const getUserTransaction = async (req, res) => {
     const userOrders = await TransactionModel.find({ userId: userId })
       .populate("userId")
       .populate("delivery_address")
-      .populate("rider", 'name mobile location')
+      .populate("rider", 'name mobile location avatar')
       .sort({ createdAt: -1 })
 
     return res.json({

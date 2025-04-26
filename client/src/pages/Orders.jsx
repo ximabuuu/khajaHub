@@ -102,6 +102,10 @@ const Orders = () => {
     }
   }
 
+  const Print = ()=>{
+    window.print()
+  }
+
   useEffect(() => {
     handleUserOrder()
     handleUserTransaction()
@@ -132,7 +136,7 @@ const Orders = () => {
   })
 
   return (
-    <div className=" px-2 py-4 sm:px-4 md:p-6 max-w-[50vh] md:max-w-screen overflow-y-auto">
+    <div className="px-2 py-4 sm:px-4 md:p-6 max-w-[50vh] md:max-w-screen overflow-hidden">
       {/* Header with refresh button */}
       <div className="flex justify-between items-center mb-4 sm:mb-6">
         <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">Your Orders</h2>
@@ -163,8 +167,8 @@ const Orders = () => {
         <div className="flex w-full">
           <button
             className={`py-3 flex-1 font-medium text-sm sm:text-base ${activeTab === "current"
-                ? "text-[#783232] border-b-2 border-[#783232]"
-                : "text-gray-500 hover:text-gray-700"
+              ? "text-[#783232] border-b-2 border-[#783232]"
+              : "text-gray-500 hover:text-gray-700"
               }`}
             onClick={() => setActiveTab("current")}
           >
@@ -243,8 +247,8 @@ const Orders = () => {
                     </svg>
                   </div>
                   <div className="min-w-0 flex-1 overflow-hidden">
-                    <h3 className="font-bold text-sm sm:text-base text-gray-800 truncate">
-                      {order.orderId || order.product_id}
+                    <h3 className="font-bold text-sm sm:text-base text-gray-800 ">
+                      {order.orderId.slice(0, 15) || order.product_id}
                     </h3>
                     <p className="text-xs text-gray-500 truncate">{new Date(order.createdAt).toLocaleDateString()}</p>
                   </div>
@@ -329,10 +333,10 @@ const Orders = () => {
                           <div className="flex items-center">
                             <div
                               className={`z-10 flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full ${order.orderStatus === "Accepted"
-                                  ? "bg-blue-500"
-                                  : order.orderStatus === "Pending"
-                                    ? "bg-gray-300"
-                                    : "bg-green-500"
+                                ? "bg-blue-500"
+                                : order.orderStatus === "Pending"
+                                  ? "bg-gray-300"
+                                  : "bg-green-500"
                                 } text-white`}
                             >
                               {order.orderStatus === "Accepted" ? "2" : order.orderStatus === "Pending" ? "2" : "✓"}
@@ -348,10 +352,10 @@ const Orders = () => {
                           <div className="flex items-center">
                             <div
                               className={`z-10 flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full ${order.orderStatus === "On the way"
-                                  ? "bg-purple-500"
-                                  : ["Pending", "Accepted"].includes(order.orderStatus)
-                                    ? "bg-gray-300"
-                                    : "bg-green-500"
+                                ? "bg-purple-500"
+                                : ["Pending", "Accepted"].includes(order.orderStatus)
+                                  ? "bg-gray-300"
+                                  : "bg-green-500"
                                 } text-white`}
                             >
                               {order.orderStatus === "On the way"
@@ -448,7 +452,7 @@ const Orders = () => {
 
                       <div className="flex items-center mb-3 sm:mb-4">
                         <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#783232] flex items-center justify-center text-white font-bold mr-3 sm:mr-4 flex-shrink-0">
-                          {order.rider.name.charAt(0)}
+                          <img src={order.rider.avatar} alt="rider" />
                         </div>
                         <div className="min-w-0">
                           <p className="font-medium text-xs sm:text-sm truncate">{order.rider.name}</p>
@@ -517,7 +521,7 @@ const Orders = () => {
                       </button>
                     )}
                     <button
-                      onClick={() => handleDownloadPDF(order)}
+                      onClick={Print}
                       className="col-span-1 sm:flex-1 py-2 px-3 bg-gray-200 text-gray-700 rounded-lg text-xs sm:text-sm hover:bg-gray-300 transition-colors flex items-center justify-center"
                     >
                       <svg

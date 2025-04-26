@@ -20,7 +20,7 @@ function App() {
   const location = useLocation()
 
   useEffect(() => {
-    window.scrollTo(0, 0); // Ensure page scrolls to top on every route change
+    window.scrollTo(0, 0)
   }, [location.pathname]);
 
   const fetchUser = async () => {

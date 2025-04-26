@@ -147,7 +147,7 @@ export const getUserOrders = async (req, res) => {
         const userOrders = await OrderModel.find({ userId: userId })
             .populate("userId")
             .populate("delivery_address")
-            .populate("rider", "name mobile role location")
+            .populate("rider", "name mobile role location avatar")
             .sort({ createdAt: -1 })
 
         return res.json({
