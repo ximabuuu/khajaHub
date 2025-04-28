@@ -1,7 +1,6 @@
-"use client"
-
 import "../App.css"
 import { useEffect, useRef, useState } from "react"
+import {Link} from 'react-router-dom'
 import axios from "../utils/axios"
 import SummaryApi from "../config/SummaryApi"
 import { toast } from "react-hot-toast"
@@ -63,44 +62,44 @@ const Orders = () => {
     }))
   }
 
-  const handleDownloadPDF = async (orderData) => {
-    try {
-      // Get the specific order's ref
-      const element = receiptRefs.current[orderData._id]
+  // const handleDownloadPDF = async (orderData) => {
+  //   try {
+  //     // Get the specific order's ref
+  //     const element = receiptRefs.current[orderData._id]
 
-      if (!element) {
-        toast.error("Unable to generate receipt. Please try again.")
-        return
-      }
+  //     if (!element) {
+  //       toast.error("Unable to generate receipt. Please try again.")
+  //       return
+  //     }
 
-      toast.loading("Generating receipt...")
+  //     toast.loading("Generating receipt...")
 
-      const canvas = await html2canvas(element, {
-        scale: 2,
-        // Ensure we capture background colors
-        backgroundColor: "#ffffff",
-        // This ensures we capture the full height
-        height: element.scrollHeight,
-      })
+  //     const canvas = await html2canvas(element, {
+  //       scale: 2,
+  //       // Ensure we capture background colors
+  //       backgroundColor: "#ffffff",
+  //       // This ensures we capture the full height
+  //       height: element.scrollHeight,
+  //     })
 
-      const imgData = canvas.toDataURL("image/png")
+  //     const imgData = canvas.toDataURL("image/png")
 
-      const pdf = new jsPDF("p", "mm", "a4")
-      const imgProps = pdf.getImageProperties(imgData)
-      const pdfWidth = pdf.internal.pageSize.getWidth()
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width
+  //     const pdf = new jsPDF("p", "mm", "a4")
+  //     const imgProps = pdf.getImageProperties(imgData)
+  //     const pdfWidth = pdf.internal.pageSize.getWidth()
+  //     const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width
 
-      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight)
-      pdf.save(`Receipt_${orderData._id}.pdf`)
+  //     pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight)
+  //     pdf.save(`Receipt_${orderData._id}.pdf`)
 
-      toast.dismiss()
-      toast.success("Receipt downloaded successfully!")
-    } catch (error) {
-      toast.dismiss()
-      toast.error("Failed to generate receipt: " + error.message)
-      console.error("PDF generation error:", error)
-    }
-  }
+  //     toast.dismiss()
+  //     toast.success("Receipt downloaded successfully!")
+  //   } catch (error) {
+  //     toast.dismiss()
+  //     toast.error("Failed to generate receipt: " + error.message)
+  //     console.error("PDF generation error:", error)
+  //   }
+  // }
 
   const Print = ()=>{
     window.print()
@@ -299,8 +298,7 @@ const Orders = () => {
                         <div className="flex justify-between">
                           <span className="text-gray-600">Delivery Address:</span>
                           <span className="font-medium text-right max-w-[120px] sm:max-w-[60%] truncate">
-                            {order.delivery_address?.city || ""}{" "}
-                            {order.delivery_address?.address_line ? `- ${order.delivery_address.address_line}` : ""}
+                            {order.delivery_address?.address_line ? ` ${order.delivery_address.address_line}` : ""}
                           </span>
                         </div>
                       </div>
@@ -541,7 +539,7 @@ const Orders = () => {
                       <span className="hidden xs:inline">Print Receipt</span>
                       <span className="inline xs:hidden">Receipt</span>
                     </button>
-                    <button className="col-span-1 sm:flex-1 py-2 px-3 bg-[#783232] text-white rounded-lg text-xs sm:text-sm hover:bg-red-800 transition-colors flex items-center justify-center">
+                    <Link to={'/contact'} className="col-span-1 sm:flex-1 py-2 px-3 bg-[#783232] text-white rounded-lg text-xs sm:text-sm hover:bg-red-800 transition-colors flex items-center justify-center">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2"
@@ -558,7 +556,7 @@ const Orders = () => {
                       </svg>
                       <span className="hidden xs:inline">Get Help</span>
                       <span className="inline xs:hidden">Help</span>
-                    </button>
+                    </Link>
                   </div>
                 </div>
               )}

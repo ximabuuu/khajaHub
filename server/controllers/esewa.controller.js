@@ -144,6 +144,7 @@ export const updateEsewaStatus = async (req, res) => {
     if (!rider || rider.role !== "RIDER") {
       return res.status(403).json({ message: "Only riders can accept orders" });
     }
+
     if (latitude && longitude) {
       await UserModel.findByIdAndUpdate(riderId, {
         location: {
@@ -153,21 +154,32 @@ export const updateEsewaStatus = async (req, res) => {
       });
     }
 
-    const updatedOrder = await TransactionModel.findByIdAndUpdate(
-      orderId,
-      { orderStatus, rider: riderId },
-      { new: true }
-    ).populate("rider", "name mobile location");
+    const order = await TransactionModel.findById(orderId);
 
-    if (!updatedOrder) {
+    if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
+
+    // If order is pending, allow anyone to accept
+    if (order.orderStatus === "Pending" && orderStatus === "Accepted") {
+      order.orderStatus = "Accepted";
+      order.rider = riderId;
+    } else {
+      // If already accepted, picked, or delivered — only assigned rider can update
+      if (!order.rider || order.rider.toString() !== riderId.toString()) {
+        return res.status(403).json({ message: "You are not assigned to this order" });
+      }
+      order.orderStatus = orderStatus;
+    }
+
+    await order.save();
+    await order.populate("rider", "name mobile location _id");
 
     res.json({
       message: "Order status updated successfully!",
       success: true,
       error: false,
-      data: updatedOrder
+      data: order
     });
 
   } catch (error) {
@@ -177,5 +189,5 @@ export const updateEsewaStatus = async (req, res) => {
       error: true
     });
   }
-};
+}
 

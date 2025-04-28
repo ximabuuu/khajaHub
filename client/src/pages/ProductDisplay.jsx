@@ -1,3 +1,4 @@
+"use client"
 
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
@@ -142,7 +143,7 @@ const ProductDisplay = () => {
         </div>
 
         <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Product Images Section */}
             <div className="p-4 md:p-8">
               {/* Main Image */}
@@ -159,13 +160,13 @@ const ProductDisplay = () => {
                   <>
                     <button
                       onClick={prevImage}
-                      className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 shadow-md transition-all"
+                      className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 shadow-md transition-all md:left-4"
                     >
                       <ChevronLeft className="w-5 h-5 text-gray-700" />
                     </button>
                     <button
                       onClick={nextImage}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 shadow-md transition-all"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 shadow-md transition-all md:right-4"
                     >
                       <ChevronRight className="w-5 h-5 text-gray-700" />
                     </button>
@@ -180,8 +181,7 @@ const ProductDisplay = () => {
                     <button
                       key={index}
                       onClick={() => setCurrentImageIndex(index)}
-                      className={`relative min-w-[70px] w-[70px] h-[70px] rounded-md overflow-hidden border-2 ${currentImageIndex === index ? "border-red-800" : "border-transparent"
-                        }`}
+                      className={`relative min-w-[60px] sm:min-w-[70px] w-[60px] sm:w-[70px] h-[60px] sm:h-[70px] rounded-md overflow-hidden border-2 ${currentImageIndex === index ? "border-red-800" : "border-transparent"}`}
                     >
                       <img
                         src={img || "/placeholder.svg"}
@@ -200,8 +200,8 @@ const ProductDisplay = () => {
                     <button
                       key={index}
                       onClick={() => setCurrentImageIndex(index)}
-                      className={`w-2.5 h-2.5 rounded-full ${currentImageIndex === index ? "bg-red-800" : "bg-gray-300"
-                        }`}
+                      className={`rounded-full aspect-square ${currentImageIndex === index ? "bg-red-800" : "bg-gray-300"} 
+          h-[8px] w-[8px] min-h-[8px] min-w-[8px]`}
                     />
                   ))}
                 </div>
@@ -260,7 +260,9 @@ const ProductDisplay = () => {
               <div className="mb-6">
                 <h2 className="text-lg font-semibold mb-2">Price</h2>
                 <div className="flex items-center gap-3">
-                  <span className="text-2xl font-bold text-red-800">Rs. {DiscountedPrice(data.price, data.discount)}</span>
+                  <span className="text-2xl font-bold text-red-800">
+                    Rs. {DiscountedPrice(data.price, data.discount)}
+                  </span>
 
                   {data.discount > 0 && (
                     <>

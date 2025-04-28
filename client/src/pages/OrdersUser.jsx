@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import AxiosToastError from "../utils/AxiosToastError"
 import Axios from "../utils/axios"
 import SummaryApi from "../config/SummaryApi"
+import toast from "react-hot-toast"
 
 const OrdersUser = () => {
   const [data, setData] = useState([])
@@ -52,7 +53,7 @@ const OrdersUser = () => {
     }
   }
 
-  const updateOrderStatus = async (orderId, newStatus) => {
+  const updateOrderStatus = async (orderId, newStatus, user) => {
     try {
       navigator.geolocation.getCurrentPosition(async (position) => {
         const { latitude, longitude } = position.coords
@@ -63,12 +64,13 @@ const OrdersUser = () => {
             orderStatus: newStatus,
             latitude,
             longitude,
+            riderId: user?._id
           },
         })
 
         if (response?.data) {
           setCash((prevOrders) =>
-            prevOrders.map((order) => (order._id === orderId ? { ...order, orderStatus: newStatus } : order)),
+            prevOrders.map((order) => (order._id === orderId ? { ...order, orderStatus: newStatus, riderId: user?._id } : order)),
           )
         }
       })
@@ -77,7 +79,7 @@ const OrdersUser = () => {
     }
   }
 
-  const updateEsewaStatus = async (orderId, newStatus) => {
+  const updateEsewaStatus = async (orderId, newStatus, user) => {
     try {
       navigator.geolocation.getCurrentPosition(async (position) => {
         const { latitude, longitude } = position.coords
@@ -88,12 +90,13 @@ const OrdersUser = () => {
             orderStatus: newStatus,
             latitude,
             longitude,
+            riderId: user?._id
           },
         })
 
         if (response?.data) {
           setData((prevOrders) =>
-            prevOrders.map((order) => (order._id === orderId ? { ...order, orderStatus: newStatus } : order)),
+            prevOrders.map((order) => (order._id === orderId ? { ...order, orderStatus: newStatus, riderId: user?._id } : order)),
           )
         }
       })
@@ -157,60 +160,64 @@ const OrdersUser = () => {
     }
   }
 
-  // Get action button based on status
-  const getActionButton = (order, isEsewa) => {
-    const updateFn = isEsewa ? updateEsewaStatus : updateOrderStatus
+const getActionButton = (order, isEsewa, user) => {
+  const updateFn = isEsewa ? updateEsewaStatus : updateOrderStatus;
 
-    switch (order.orderStatus) {
-      case "Pending":
+  const isAssignedToMe = order?.riderId === user?._id;
+
+  switch (order.orderStatus) {
+    case "Pending":
+      return (
+        <button
+          onClick={() => updateFn(order._id, "Accepted")}
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition-colors flex items-center justify-center"
+        >
+          Accept Order
+        </button>
+      );
+
+    case "Accepted":
+      if (!isAssignedToMe) {
+        toast(message), {
+          icon: '⚠️',
+          style: {
+            background: '#f44336',
+            color: '#fff',
+          }
+        };
         return (
-          <button
-            onClick={() => updateFn(order._id, "Accepted")}
-            className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition-colors flex items-center justify-center"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-              <path
-                fillRule="evenodd"
-                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                clipRule="evenodd"
-              />
-            </svg>
-            Accept Order
-          </button>
-        )
-      case "Accepted":
-        return (
-          <button
-            onClick={() => updateFn(order._id, "Picked")}
-            className="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-lg transition-colors flex items-center justify-center"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M8 5a1 1 0 100 2h5.586l-1.293 1.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L13.586 5H8z" />
-              <path d="M12 15a1 1 0 100-2H6.414l1.293-1.293a1 1 0 10-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L6.414 15H12z" />
-            </svg>
-            Mark as Picked
-          </button>
-        )
-      case "Picked":
-        return (
-          <button
-            onClick={() => updateFn(order._id, "Delivered")}
-            className="w-full bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg transition-colors flex items-center justify-center"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-              <path
-                fillRule="evenodd"
-                d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                clipRule="evenodd"
-              />
-            </svg>
-            Complete Delivery
-          </button>
-        )
-      default:
-        return null
-    }
+          <div className="text-center text-red-500 font-semibold">
+            Already accepted by {order?.rider?.name || "another rider"}
+          </div>
+        );
+      }
+      return (
+        <button
+          onClick={() => updateFn(order._id, "Picked")}
+          className="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-lg transition-colors flex items-center justify-center"
+        >
+          Mark as Picked
+        </button>
+      );
+
+    case "Picked":
+      if (!isAssignedToMe) {
+        toast(message)
+      }
+      return (
+        <button
+          onClick={() => updateFn(order._id, "Delivered")}
+          className="w-full bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg transition-colors flex items-center justify-center"
+        >
+          Complete Delivery
+        </button>
+      );
+
+    default:
+      return null;
   }
+}
+
 
   return (
     <div className=" max-h-[60vh] bg-gray-50">
@@ -244,45 +251,40 @@ const OrdersUser = () => {
         {/* Stats Cards */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
           <div
-            className={`bg-white rounded-lg shadow-sm p-3 border-l-4 cursor-pointer ${
-              statusFilter === "all" ? "border-blue-500" : "border-gray-200"
-            }`}
+            className={`bg-white rounded-lg shadow-sm p-3 border-l-4 cursor-pointer ${statusFilter === "all" ? "border-blue-500" : "border-gray-200"
+              }`}
             onClick={() => setStatusFilter("all")}
           >
             <p className="text-xs text-gray-500">All Orders</p>
             <p className="text-xl font-bold">{statusCounts.all}</p>
           </div>
           <div
-            className={`bg-white rounded-lg shadow-sm p-3 border-l-4 cursor-pointer ${
-              statusFilter === "pending" ? "border-blue-500" : "border-gray-200"
-            }`}
+            className={`bg-white rounded-lg shadow-sm p-3 border-l-4 cursor-pointer ${statusFilter === "pending" ? "border-blue-500" : "border-gray-200"
+              }`}
             onClick={() => setStatusFilter("pending")}
           >
             <p className="text-xs text-gray-500">Pending</p>
             <p className="text-xl font-bold">{statusCounts.pending}</p>
           </div>
           <div
-            className={`bg-white rounded-lg shadow-sm p-3 border-l-4 cursor-pointer ${
-              statusFilter === "accepted" ? "border-blue-500" : "border-gray-200"
-            }`}
+            className={`bg-white rounded-lg shadow-sm p-3 border-l-4 cursor-pointer ${statusFilter === "accepted" ? "border-blue-500" : "border-gray-200"
+              }`}
             onClick={() => setStatusFilter("accepted")}
           >
             <p className="text-xs text-gray-500">Accepted</p>
             <p className="text-xl font-bold">{statusCounts.accepted}</p>
           </div>
           <div
-            className={`bg-white rounded-lg shadow-sm p-3 border-l-4 cursor-pointer ${
-              statusFilter === "picked" ? "border-blue-500" : "border-gray-200"
-            }`}
+            className={`bg-white rounded-lg shadow-sm p-3 border-l-4 cursor-pointer ${statusFilter === "picked" ? "border-blue-500" : "border-gray-200"
+              }`}
             onClick={() => setStatusFilter("picked")}
           >
             <p className="text-xs text-gray-500">Picked</p>
             <p className="text-xl font-bold">{statusCounts.picked}</p>
           </div>
           <div
-            className={`bg-white rounded-lg shadow-sm p-3 border-l-4 cursor-pointer ${
-              statusFilter === "delivered" ? "border-blue-500" : "border-gray-200"
-            }`}
+            className={`bg-white rounded-lg shadow-sm p-3 border-l-4 cursor-pointer ${statusFilter === "delivered" ? "border-blue-500" : "border-gray-200"
+              }`}
             onClick={() => setStatusFilter("delivered")}
           >
             <p className="text-xs text-gray-500">Delivered</p>
@@ -294,25 +296,22 @@ const OrdersUser = () => {
         <div className="bg-white rounded-lg shadow-sm mb-6">
           <div className="flex border-b">
             <button
-              className={`px-4 py-3 text-sm font-medium ${
-                activeTab === "all" ? "text-blue-600 border-b-2 border-blue-600" : "text-gray-500 hover:text-gray-700"
-              }`}
+              className={`px-4 py-3 text-sm font-medium ${activeTab === "all" ? "text-blue-600 border-b-2 border-blue-600" : "text-gray-500 hover:text-gray-700"
+                }`}
               onClick={() => setActiveTab("all")}
             >
               All Orders
             </button>
             <button
-              className={`px-4 py-3 text-sm font-medium ${
-                activeTab === "esewa" ? "text-blue-600 border-b-2 border-blue-600" : "text-gray-500 hover:text-gray-700"
-              }`}
+              className={`px-4 py-3 text-sm font-medium ${activeTab === "esewa" ? "text-blue-600 border-b-2 border-blue-600" : "text-gray-500 hover:text-gray-700"
+                }`}
               onClick={() => setActiveTab("esewa")}
             >
               Esewa Payments
             </button>
             <button
-              className={`px-4 py-3 text-sm font-medium ${
-                activeTab === "cod" ? "text-blue-600 border-b-2 border-blue-600" : "text-gray-500 hover:text-gray-700"
-              }`}
+              className={`px-4 py-3 text-sm font-medium ${activeTab === "cod" ? "text-blue-600 border-b-2 border-blue-600" : "text-gray-500 hover:text-gray-700"
+                }`}
               onClick={() => setActiveTab("cod")}
             >
               COD Payments

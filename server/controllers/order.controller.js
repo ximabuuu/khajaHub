@@ -104,31 +104,38 @@ export const updateOrderStatus = async (req, res) => {
 
         if (latitude && longitude) {
             await UserModel.findByIdAndUpdate(riderId, {
-                location: {
-                    latitude,
-                    longitude
-                }
+                location: { latitude, longitude }
             });
         }
 
-        const updatedOrder = await OrderModel.findByIdAndUpdate(
-            orderId,
-            {
-                orderStatus,
-                rider: riderId
-            },
-            { new: true }
-        ).populate("rider", "name mobile location")
+        const order = await OrderModel.findById(orderId)
 
-        if (!updatedOrder) {
+        if (!order) {
             return res.status(404).json({ message: "Order not found" })
         }
+
+        // If order is pending, allow anyone to accept
+        if (order.orderStatus === "Pending" && orderStatus === "Accepted") {
+            order.orderStatus = "Accepted"
+            order.rider = riderId
+        }
+        else {
+            // If already accepted or picked, only assigned rider can change
+            if (!order.rider || order.rider.toString() !== riderId.toString()) {
+                return res.status(403).json({ message: "You are not assigned to this order" })
+            }
+            order.orderStatus = orderStatus
+        }
+
+        await order.save()
+
+        await order.populate("rider", "name mobile location _id")
 
         res.json({
             message: "Order status updated successfully!",
             success: true,
             error: false,
-            data: updatedOrder
+            data: order
         })
 
     } catch (error) {
